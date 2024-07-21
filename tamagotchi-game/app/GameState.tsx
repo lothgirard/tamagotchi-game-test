@@ -10,9 +10,48 @@ export const GameStateContext = createContext<Array<String>>([]);
 export const GameStateDispatchContext = createContext<any>({state: null, dispatch: () => null});
 
 export const GameStateContextProvider = ({children}) => { 
-    const [actionList, actionListDispatch] = useReducer(actionListReducer, []);
+
+    function progressStateReducer(state: Array<number>, action: number) {
+        if(0 <= action && action < FrogCount) {
+            state.push(action);
+        }
+        return state;
+    }   
     const [progressState, progressStateDispatch] = useReducer(progressStateReducer, []);
-    const [gameState, gameStateDispatch] = useReducer(gameStateReducer, []);
+
+    function gameStateReducer(state: Array<String>, action: Array<String>) {
+        console.log(action);
+        console.log(state);
+        switch(action[0]) {
+            case "hatching":
+                state = action;
+                break;
+            case "hatched":
+                var number = getPet(action[1], action[2]);
+                var pet = "pet_" + String(number);
+                progressStateDispatch(number);
+                state = [pet];
+                break;
+            default:
+        }
+        return state;
+    }
+    const [gameState, gameStateDispatch] = useReducer(gameStateReducer, ['egg_1']);
+
+    function actionListReducer(state: Array<String>, action: Array<String>) {
+        switch(action[0]) {
+            case "hatching":
+                return state;
+            default: 
+                console.log(action);
+                //state.push(action[0]);
+                var output = state.concat(action);
+                console.log(state);
+                console.log("state was changed");
+                return output;
+        }
+    }
+    const [actionList, actionListDispatch] = useReducer(actionListReducer, []);
 
     return (
         <ActionListContext.Provider value ={actionList}>
@@ -31,28 +70,19 @@ export const GameStateContextProvider = ({children}) => {
     )
 }
 
-export function actionListReducer(state: Array<String>, action: string) {
-    switch(action) {
+function getPet(egg: String, hatchAction: String) {
+    switch(egg) {
         default: 
-            state.push(action);
-            return state;
+            switch(hatchAction) {
+                case "pet":
+                    return 1;
+                default:
+                    return 2;
+            }
     }
 }
 
-export function progressStateReducer(state: Array<number>, action: number) {
-    if(0 <= action && action < FrogCount) {
-        state.push(action);
-    }
-    return state;
-}
 
-export function gameStateReducer(state: Array<String>, action: string) {
-    switch(action) {
-        default:
-            return state;
-    }
-
-}
 
 export function useActionList() {
     return useContext(ActionListContext);

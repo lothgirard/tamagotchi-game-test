@@ -49,7 +49,14 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         return {width: width, height: height}
     }
 
+    function calculatePetDims() {
+        var ratio = eggDims.width/146;
+        var size = ratio * 64;
+        return size;
+    }
+
     const arrowDims = calculateArrowDims();
+    const petDims = calculatePetDims();
     var ratio = (eggDims.width / 146);
     return StyleSheet.create({
     egg: {
@@ -69,7 +76,9 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     screen: {
         width: screenDims.width,
         height: screenDims.height, 
-
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
         'imageRendering': 'pixelated'
     },
     arrow: {
@@ -114,6 +123,61 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: '#ab0000',
+    },
+    screenText: {
+        fontFamily: 'Tama-Connect',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    leftText: {
+        fontFamily: 'Tama-Connect',
+        fontSize: 24,
+        width: 19 * ratio,
+        textAlign: 'left',
+        left: 2 * ratio,
+        bottom: 2.125 * arrowDims.height -  screenDims.height,
+    },
+    rightText: {
+        fontFamily: 'Tama-Connect',
+        fontSize: 24,
+        width: 19 * ratio,
+        textAlign: 'right',
+        right: 1.5 * ratio,
+        bottom: 2.125 * arrowDims.height - screenDims.height,
+    },
+    pet: {
+        height: petDims,
+        width: petDims,
+        //alignSelf: 'center',
+        //left: - 18 * ratio,
+        borderWidth: 1, 
+        borderColor: "0x330000",
+    },
+    screenLayout: { 
+        width: screenDims.width,
+        height: screenDims.height,
+        flexDirection: 'column',
+    },
+    upperScreen: {
+        width: screenDims.width - 2 * ratio,
+        height: ratio * 16,
+        position: 'relative',
+        top: 3 * ratio,
+        borderColor: '0x330000',
+        borderWidth: 1,
+        alignSelf: 'center',
+        justifyContent: 'center',
+    },
+    lowerScreen: {
+        width: screenDims.width - 2 * ratio,
+        height: screenDims.height - 5 * ratio, 
+        position: 'relative',
+        top: -ratio * 13,
+        alignSelf: 'center',
+        //alignItems: 'center',
+        flexDirection: 'row',
+        borderColor: '0x330000',
+        borderWidth: 1,
     },
 })};
 

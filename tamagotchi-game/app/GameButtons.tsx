@@ -7,31 +7,34 @@ export function GameButtons({Styles}) {
     var dispatch = useActionListDispatch();
     var actions = useActionList();
 
+    var gameStateDispatch = useGameStateDispatch();
+    var gameState = useGameState();
+
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet")}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch)}>
                         <View> 
                             <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "play")}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/play-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "gift")}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/gift-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "feed")}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/feed-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.smallButtonRow}>
-                    <Pressable onPressOut={() => optionsButton(dispatch, actions)}>
+                    <Pressable onPressOut={() => optionsButton(gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/options-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => resetButton(dispatch, actions)}>
+                    <Pressable onPress={() => resetButton(gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/reset-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
@@ -42,19 +45,19 @@ export function GameButtons({Styles}) {
 var currEgg = "";
 var hatchAction = "";
 
-function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string) {
+function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any) {
     //var dispatch = useActionListDispatch();
-    console.log("froggyFunction!");
-    dispatch(actionType);
+    console.log(actionType);
     if(hatchAction === "") {
-        console.log(actionList.length);
+        currEgg = "egg_1";
+        dispatch(actionType);
+        console.log(actionList);
         //var actions = useActionList();
         if(actionList.length >= 4) {
             console.log("four actions reached");
-            var actionNums = actionList.slice(0, 4).reduce((accumulator, currVal) => { accumulator.has(currVal) ? 
-                        accumulator.set(currVal, accumulator.get(currVal)+1) : accumulator.set(currVal, 1); 
-                        return accumulator }, new Map());
-            const it = actionNums.keys()            
+            var actionNums = determineHatchAction(actionList);
+            console.log(actionNums);
+            const it = actionNums.keys();          
             var max = it.next();
             if(actionNums.size > 1) {
                 for(var key = it.next(); !key.done; key = it.next()) {
@@ -64,23 +67,37 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
                 }
             }
             hatchAction = max.value;
+            console.log("continued")
         } else {
             return;
         }
     } 
-    hatchTime(dispatch, actionList, currEgg, hatchAction);
+    //hatchTime(dispatch, actionList, currEgg, hatchAction);
+    gameStateDispatch(["hatching", currEgg, hatchAction]);
 }
 
 function hatchTime(dispatch: any, actions: Array<String>, egg: string, frogType: string) {
     //changes the GameState idk
     console.log("hatching " + egg + " with action type " + frogType);
-    dispatch(actions, "hatched");
+    
 }
 
-function optionsButton(dispatch: any, actions: Array<String>) {
-    dispatch(actions, "options");
+function determineHatchAction(actions: Array<String>) {
+    var map = new Map();
+    for(var i = 0; i < 4; i = i + 1) {
+        if(map.has(actions[i])) {
+            map.set(actions[i], map.get(actions[i]) + 1);
+        } else {
+            map.set(actions[i], 0);
+        }
+    }
+    return map;
 }
 
-function resetButton(dispatch: any, actions: Array<String>) {
-    dispatch(actions, "reset");
+function optionsButton(dispatch: any) {
+    dispatch(["options"]);
+}
+
+function resetButton(dispatch: any) {
+    dispatch(["reset"]);
 }

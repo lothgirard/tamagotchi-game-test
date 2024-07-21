@@ -1,52 +1,97 @@
 import React from 'react';
-import { ImageBackground, Text, View, Image, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
+import { stateCache } from 'expo-router/build/getLinkingConfig';
+
 
 export function GameDisplay({Styles}) {
     var gameState = useGameState();
     var gameStateDispatch = useGameStateDispatch();
 
+    switch(gameState[0]) {
+        case 'stats':
+            return stats(gameState);
+        case 'collection':
+            return collection(gameState);
+        case 'credits':
+            return credits(gameState);
+        default: 
+            return ( gameplay(Styles, gameState) );
+    }
+}
+
+
+function screenPrompt(gameState: Array<String>) {
+    console.log(gameState[0]);
+    switch(gameState[0]) {
+        case "hatching":
+            return "Your egg looks ready to hatch! Are you ready?";
+        default: 
+            return "";
+    }
+}
+
+function leftText(gameState: Array<String>) {
+    switch(gameState[0]) {
+        case "hatching":
+            return "YES";
+        default: 
+            return "";
+    }
+}
+
+function rightText(gameState: Array<String>) {
+    switch(gameState[0]) {
+        case "hatching":
+            return "NO";
+        default: 
+            return "";
+    }
+}
+
+function stats(gameState: Array<String>) {
+    return (<View></View>);
+}
+
+function collection(gameState: Array<String>) {
+    return (<View></View>);
+}
+
+function credits(gameState: Array<String>) {
+    return (<View></View>);
+}
+
+function gameplay(Styles, gameState: Array<String>) {
     return (
-        <View style={Styles.upperDisplay}> 
-            <Pressable onPress={() => leftButton(gameState, gameStateDispatch)}>
-                <Image source={{uri: "assets/images/game-images/left-arrow.png"}} style={ Styles.arrow }/>
-            </Pressable>
-            <Pressable>
-                <Image source={{uri: "assets/images/game-images/tamagotchi-screen.png"}} style={ Styles.screen } resizeMode='contain'/>
-            </Pressable>
-            <Pressable onPress={() => rightButton(gameState, gameStateDispatch)}>
-                <Image source={{uri: "assets/images/game-images/right-arrow.png"}} style={ Styles.arrow }/>
-            </Pressable>
+    <View style={Styles.screenLayout}>
+        <View style={Styles.upperScreen}>
+            <Text style={Styles.screenText}> 
+                {screenPrompt(gameState)}
+            </Text>
         </View>
-    );
+        <View style={Styles.lowerScreen}>
+            <Text style={Styles.leftText}>
+                {leftText(gameState)}
+            </Text>
+            <Image style={Styles.pet} source={{uri: getImage(gameState)}}/>
+            <Text style={Styles.rightText}>
+                {rightText(gameState)}
+            </Text>
+        </View>
+    </View>
+    )
 }
 
-function leftButton(gameState: Array<String>, dispatch: any) {
-    console.log("left!");
-    var action = "";
+function getImage(gameState: Array<String>) {
+    var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
+    console.log(gameState);
     switch(gameState[0]) {
-        default:
-            action = "";
+        case "hatching":
+            output = 'assets/images/game-images/pets/' + gameState[1] + '.png';
+        default: 
+            return output;
     }
-    dispatch(gameState, action);
-}
-
-function rightButton(gameState: Array<String>, dispatch: any) {
-    console.log("right!");
-    var action = "";
-    switch(gameState[0]) {
-        default:
-            action = "";
-    }
-    dispatch(gameState, action);
-}
-
-function selectOption(gameState: Array<String>, dispatch: any) {
-    console.log("select!");
-    var action = "";
-    switch(gameState[0]) {
-        default:
-            action = "";
-    }
-    dispatch(gameState, action);
+    var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
+    console.log(output);
+    return output;
 }
