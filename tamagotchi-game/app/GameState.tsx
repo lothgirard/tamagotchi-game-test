@@ -23,6 +23,7 @@ export const GameStateContextProvider = ({children}) => {
         console.log(action);
         console.log(state);
         switch(action[0]) {
+            case "hatchingAnim":
             case "hatching":
                 state = action;
                 break;

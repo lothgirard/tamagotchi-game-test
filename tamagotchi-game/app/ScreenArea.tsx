@@ -26,10 +26,10 @@ export function ScreenArea({Styles}) {
 
 function leftButton(gameState: Array<String>, dispatch: any) {
     console.log("left!");
-    var action = gameState;
+    var action = gameState.slice();
     switch(gameState[0]) {
         case "hatching":
-            action[0] = "hatched";
+            action[0] = "hatchingAnim";
         default:
             dispatch(action);
     }
@@ -37,7 +37,7 @@ function leftButton(gameState: Array<String>, dispatch: any) {
 
 function rightButton(gameState: Array<String>, dispatch: any) {
     console.log("right!");
-    var action = gameState;
+    var action = gameState.slice();
     switch(gameState[0]) {
         case "hatching":
             action[0] = "unhatched";

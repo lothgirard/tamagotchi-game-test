@@ -16,7 +16,7 @@ export function GameDisplay({Styles}) {
         case 'credits':
             return credits(gameState);
         default: 
-            return ( gameplay(Styles, gameState) );
+            return ( gameplay(Styles, gameState, gameStateDispatch) );
     }
 }
 
@@ -61,7 +61,7 @@ function credits(gameState: Array<String>) {
     return (<View></View>);
 }
 
-function gameplay(Styles, gameState: Array<String>) {
+function gameplay(Styles, gameState: Array<String>, gameStateDispatch: any) {
     return (
     <View style={Styles.screenLayout}>
         <View style={Styles.upperScreen}>
@@ -73,7 +73,7 @@ function gameplay(Styles, gameState: Array<String>) {
             <Text style={Styles.leftText}>
                 {leftText(gameState)}
             </Text>
-            <Image style={Styles.pet} source={{uri: getImage(gameState)}}/>
+            <Image style={Styles.pet} source={{uri: getImage(gameState, gameStateDispatch)}}/>
             <Text style={Styles.rightText}>
                 {rightText(gameState)}
             </Text>
@@ -82,16 +82,24 @@ function gameplay(Styles, gameState: Array<String>) {
     )
 }
 
-function getImage(gameState: Array<String>) {
+function getImage(gameState: Array<String>, gameStateDispatch: any) {
     var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
     console.log(gameState);
     switch(gameState[0]) {
         case "hatching":
+        case "hatched":
             output = 'assets/images/game-images/pets/' + gameState[1] + '.png';
+            break;
+        case "hatchingAnim":
+            output = 'assets/images/game-images/pets/' + gameState[1] + '_broken.png';
+            var action = gameState.slice();
+            action[0] = "hatched";
+            setTimeout(() => {gameStateDispatch(action)}, 2000);
+            break;
         default: 
-            return output;
     }
-    var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
-    console.log(output);
     return output;
+    // var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
+    // console.log(output);
+    // return output;
 }
