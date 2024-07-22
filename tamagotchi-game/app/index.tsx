@@ -7,6 +7,7 @@ import { GameButtons } from "./GameButtons";
 
 export default function Index() {
   const [gameState, setGameState] = useState(['egg_1']);
+  const [actionList, setActionList] = useState([]);
   const {width, height} = useWindowDimensions();
   const Styles = GenerateStyles(width, height); 
   console.log("index: " + gameState);
@@ -15,7 +16,7 @@ export default function Index() {
       <View style={Styles.outerView}>
         <ImageBackground source={{uri: 'assets/images/game-images/tamagotchi-egg.png'}} style={Styles.egg} resizeMode="contain">
           <ScreenArea Styles={Styles} GameState={gameState} setGameState={setGameState}/>
-          <GameButtons Styles={Styles} GameState={gameState} setGameState={setGameState} />
+          <GameButtons Styles={Styles} GameState={gameState} setGameState={setGameState} actionList={actionList} setActionList={setActionList} />
         </ImageBackground>
       </View>
     </GameStateContextProvider>

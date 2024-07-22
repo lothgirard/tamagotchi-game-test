@@ -26,7 +26,7 @@ export function ScreenArea({Styles, GameState, setGameState}: Props) {
     //console.log(GameState)
     return (
         <View style={Styles.upperDisplay}> 
-            <Pressable onPress={() => leftButton(gameState, gameStateDispatch)}>
+            <Pressable onPress={() => leftButton(GameState, setGameState)}>
                 <Image source={{uri: "assets/images/game-images/left-arrow.png"}} style={ Styles.arrow }/>
             </Pressable>
             <Pressable>
@@ -34,42 +34,42 @@ export function ScreenArea({Styles, GameState, setGameState}: Props) {
                     <GameDisplay Styles={Styles} GameState={GameState} setGameState={setGameState}/>
                 </ImageBackground>
             </Pressable>
-            <Pressable onPress={() => rightButton(gameState, gameStateDispatch)}>
+            <Pressable onPress={() => rightButton(GameState, setGameState)}>
                 <Image source={{uri: "assets/images/game-images/right-arrow.png"}} style={ Styles.arrow }/>
             </Pressable>
         </View>
     );
 }
 
-function leftButton(gameState: Array<String>, dispatch: any) {
+function leftButton(gameState: Array<String>, setGameState: any) {
     console.log("left!");
-    var action = gameState;
+    var action = gameState.slice();
     switch(gameState[0]) {
         case "hatching":
             action[0] = "hatchingAnim";
         default:
-            dispatch(action);
+            setGameState(action);
     }
 }
 
-function rightButton(gameState: Array<String>, dispatch: any) {
+function rightButton(gameState: Array<String>, setGameState: any) {
     //console.log("right!");
-    var action = gameState;
+    var action = gameState.slice();
     switch(gameState[0]) {
         case "hatching":
             action[0] = "unhatched";
         default:
-            dispatch(action);
+            setGameState(action);
     }
 }
 
-function selectOption(gameState: Array<String>, dispatch: any) {
+function selectOption(gameState: Array<String>, setGameState: any) {
     //console.log("select!");
     var action = "";
     switch(gameState[0]) {
         default:
             action = "";
     }
-    dispatch(action);
+    setGameState(gameState);
 }
 

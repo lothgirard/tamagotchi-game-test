@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 
-export function GameButtons({Styles,  GameState, setGameState}) {
+export function GameButtons({Styles,  GameState, setGameState, actionList, setActionList}) {
 
     var dispatch = useActionListDispatch();
     var actions = useActionList();
@@ -13,20 +13,20 @@ export function GameButtons({Styles,  GameState, setGameState}) {
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, setGameState)}>
+                    <Pressable onPress={() => froggyFunction("pet", actionList, setActionList, GameState, setGameState)}>
                         <View> 
                             <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch)}>
+                    <Pressable onPress={() => froggyFunction("play", actionList, setActionList, GameState, setGameState)}>
                         <Image source={{uri: 'assets/images/game-images/play-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch)}>
+                    <Pressable onPress={() => froggyFunction("gift", actionList, setActionList, GameState, setGameState)}>
                         <Image source={{uri: 'assets/images/game-images/gift-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch)}>
+                    <Pressable onPress={() => froggyFunction( "feed", actionList, setActionList, GameState, setGameState)}>
                         <Image source={{uri: 'assets/images/game-images/feed-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
@@ -45,16 +45,14 @@ export function GameButtons({Styles,  GameState, setGameState}) {
 var currEgg = "";
 var hatchAction = "";
 
-function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any, setGameState: any) {
+function froggyFunction(actionType: string, actionList: any, setActionList: any, gameState: any, setGameState: any) {
     //var dispatch = useActionListDispatch();
     //console.log(actionType);
     if(hatchAction === "") {
         currEgg = "egg_1";
-        dispatch(actionType);
-        setGameState(["test"]);
-        //dispatch(["test"]);
-        //console.log(actionList);
-        //var actions = useActionList();
+        actionList.push([actionType]);
+        setActionList(actionList);
+        //setGameState(["test"]);
         if(actionList.length >= 4) {
             //console.log("four actions reached");
             var actionNums = determineHatchAction(actionList);
@@ -75,7 +73,7 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
         }
     } 
     //hatchTime(dispatch, actionList, currEgg, hatchAction);
-    gameStateDispatch(["hatching", currEgg, hatchAction]);
+    setGameState(["hatching", currEgg, hatchAction]);
 }
 
 function hatchTime(dispatch: any, actions: Array<String>, egg: string, frogType: string) {

@@ -12,75 +12,60 @@ type Props = {
 }
 
 export function GameDisplay({Styles, GameState, setGameState}: Props) {
-    const gameState = useGameState();
-    const gameStateDispatch = useGameStateDispatch();
+    // const gameState = useGameState();
+    // const gameStateDispatch = useGameStateDispatch();
 
 
-    var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
-
-    // useEffect( () => {
-    //     if(gameState[0] === "hatchingAnim") {
-    //         var action = gameState;
-    //         action[0] = "hatched";
-    //         setTimeout(() => { console.log("timeout!"); gameStateDispatch(action)} , 0);
-    //     }
-    // }, [gameState, gameStateDispatch]
-    // );
-    //var output = "";
-
-    //useEffect(() => {
-    console.log("GameDisplay: " + GameState);
-    console.log(gameState);
+    var output = 'assets/images/game-images/pets/' + GameState[0] + '.png';
+    console.log(GameState);
     switch(GameState[0]) {
         case "hatched":
         case "hatching":
-            output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
+            output = 'assets/images/game-images/pets/' + GameState[1] + '.png';
             break;
+            //return output; 
         case "hatchingAnim":
-        case "test":
-            output = 'assets/images/game-images/pets/' + gameState[0] + '_broken.png';
-            console.log(output);
+            output = 'assets/images/game-images/pets/' + GameState[1] + '_broken.png';
+            break;
+            //console.log();
+            //return output; 
         default: 
-    };
-    //}, [GameState, gameState]);
-                //console.log(gameState[0]);
-    //     var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
-    //     console.log(output);
-    //     return output;
-    // }
-
-    var gameplay = (image) => 
-        {
-            console.log("output is " + output);
-        return (
-        <View style={Styles.screenLayout}>
-            <View style={Styles.upperScreen}>
-                <Text style={Styles.screenText} adjustsFontSizeToFit={true}> 
-                    {screenPrompt(gameState)}
-                </Text>
-            </View>
-            <View style={Styles.lowerScreen}>
-                <Text style={Styles.leftText} adjustsFontSizeToFit={true}>
-                    {leftText(gameState)}
-                </Text>
-                <Image style={Styles.pet} source={{uri: image}}/>
-                <Text style={Styles.rightText} adjustsFontSizeToFit={true}>
-                    {rightText(gameState)}
-                </Text>
-            </View>
-        </View>
-        )
+            //console.log(gameState[0]);
+            //return output;
     }
 
-    switch(gameState[0]) {
+    // var gameplay = (image) => 
+    //     {
+    //         console.log("output is " + output);
+    //     return (
+    //     <View style={Styles.screenLayout}>
+    //         <View style={Styles.upperScreen}>
+    //             <Text style={Styles.screenText} adjustsFontSizeToFit={true}> 
+    //                 {screenPrompt(gameState)}
+    //             </Text>
+    //         </View>
+    //         <View style={Styles.lowerScreen}>
+    //             <Text style={Styles.leftText} adjustsFontSizeToFit={true}>
+    //                 {leftText(gameState)}
+    //             </Text>
+    //             <Image style={Styles.pet} source={{uri: image}}/>
+    //             <Text style={Styles.rightText} adjustsFontSizeToFit={true}>
+    //                 {rightText(gameState)}
+    //             </Text>
+    //         </View>
+    //     </View>
+    //     )
+    // }
+
+    switch(GameState[0]) {
         case 'stats':
-            return stats(gameState);
+            return stats(GameState);
         case 'collection':
-            return collection(gameState);
+            return collection(GameState);
         case 'credits':
-            return credits(gameState);
+            return credits(GameState);
         default: 
-            return gameplay(output);
+            return gameplay(Styles, GameState, output);
     }
 }
 
@@ -141,17 +126,29 @@ function credits(gameState: Array<String>) {
     return (<View></View>);
 }
 
-function getImage(gameState, gameStateDispatch) {
-    // const dispatchRef = useRef(gameStateDispatch);
-    // dispatchRef.current = gameStateDispatch;
+function gameplay(Styles: any, gameState: any, output: string) {
+    return (
+    <View style={Styles.screenLayout}>
+        <View style={Styles.upperScreen}>
+            <Text style={Styles.screenText} adjustsFontSizeToFit={true}> 
+                {screenPrompt(gameState)}
+            </Text>
+        </View>
+        <View style={Styles.lowerScreen}>
+            <Text style={Styles.leftText} adjustsFontSizeToFit={true}>
+                {leftText(gameState)}
+            </Text>
+            <Image style={Styles.pet} source={{uri: output}}/>
+            <Text style={Styles.rightText} adjustsFontSizeToFit={true}>
+                {rightText(gameState)}
+            </Text>
+        </View>
+    </View>
+    )
+}
+
+function getImage(gameState: Array<String>) {
     var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
-    useEffect(() => {
-        if(gameState[0] === "hatchingAnim") {
-            var action = gameState;
-            action[0] = "hatched";
-            setTimeout(() => { console.log("timeout!"); gameStateDispatch(action)} , 0);
-        }}, [gameState, gameStateDispatch]
-    );
     //console.log(gameState);
     switch(gameState[0]) {
         case "hatched":
