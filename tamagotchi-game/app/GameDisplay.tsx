@@ -87,16 +87,16 @@ function getImage(gameState: Array<String>, gameStateDispatch: any) {
     console.log(gameState);
     switch(gameState[0]) {
         case "hatching":
-        case "hatched":
             output = 'assets/images/game-images/pets/' + gameState[1] + '.png';
             break;
         case "hatchingAnim":
             output = 'assets/images/game-images/pets/' + gameState[1] + '_broken.png';
             var action = gameState.slice();
             action[0] = "hatched";
-            setTimeout(() => {gameStateDispatch(action)}, 2000);
+            setTimeout(() => {gameStateDispatch(action)}, 0);
             break;
         default: 
+
     }
     return output;
     // var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';

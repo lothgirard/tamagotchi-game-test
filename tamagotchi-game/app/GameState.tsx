@@ -20,8 +20,8 @@ export const GameStateContextProvider = ({children}) => {
     const [progressState, progressStateDispatch] = useReducer(progressStateReducer, []);
 
     function gameStateReducer(state: Array<String>, action: Array<String>) {
-        console.log(action);
-        console.log(state);
+        //console.log(action);
+        //console.log(state);
         switch(action[0]) {
             case "hatchingAnim":
             case "hatching":
@@ -32,23 +32,24 @@ export const GameStateContextProvider = ({children}) => {
                 var pet = "pet_" + String(number);
                 progressStateDispatch(number);
                 state = [pet];
-                break;
+                break;            
             default:
         }
+        //console.log(state);
         return state;
     }
     const [gameState, gameStateDispatch] = useReducer(gameStateReducer, ['egg_1']);
-
+    //console.log(gameState);
     function actionListReducer(state: Array<String>, action: Array<String>) {
         switch(action[0]) {
             case "hatching":
                 return state;
             default: 
-                console.log(action);
+                //console.log(action);
                 //state.push(action[0]);
                 var output = state.concat(action);
-                console.log(state);
-                console.log("state was changed");
+                //console.log(state);
+                //console.log("state was changed");
                 return output;
         }
     }

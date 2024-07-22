@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 
-export function GameButtons({Styles}) {
+export function GameButtons({Styles,  GameState, setGameState}) {
 
     var dispatch = useActionListDispatch();
     var actions = useActionList();
@@ -13,7 +13,7 @@ export function GameButtons({Styles}) {
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch)}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, setGameState)}>
                         <View> 
                             <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
@@ -45,18 +45,20 @@ export function GameButtons({Styles}) {
 var currEgg = "";
 var hatchAction = "";
 
-function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any) {
+function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any, setGameState: any) {
     //var dispatch = useActionListDispatch();
-    console.log(actionType);
+    //console.log(actionType);
     if(hatchAction === "") {
         currEgg = "egg_1";
         dispatch(actionType);
-        console.log(actionList);
+        setGameState(["test"]);
+        //dispatch(["test"]);
+        //console.log(actionList);
         //var actions = useActionList();
         if(actionList.length >= 4) {
-            console.log("four actions reached");
+            //console.log("four actions reached");
             var actionNums = determineHatchAction(actionList);
-            console.log(actionNums);
+            //console.log(actionNums);
             const it = actionNums.keys();          
             var max = it.next();
             if(actionNums.size > 1) {
@@ -67,7 +69,7 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
                 }
             }
             hatchAction = max.value;
-            console.log("continued")
+            //console.log("continued")
         } else {
             return;
         }
@@ -78,7 +80,7 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
 
 function hatchTime(dispatch: any, actions: Array<String>, egg: string, frogType: string) {
     //changes the GameState idk
-    console.log("hatching " + egg + " with action type " + frogType);
+    //console.log("hatching " + egg + " with action type " + frogType);
     
 }
 

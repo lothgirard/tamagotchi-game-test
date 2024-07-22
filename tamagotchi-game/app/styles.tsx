@@ -128,14 +128,16 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         fontFamily: 'Tama-Connect',
         fontSize: 16,
         textAlign: 'center',
+        //adjustsFontSizeToFit: 'true',
     },
     leftText: {
         fontFamily: 'Tama-Connect',
-        fontSize: 24,
+        fontSize: 24, //FONT SIZE MUST BE VARIABLE TOO (ugh)
         width: 19 * ratio,
         textAlign: 'left',
         left: 2 * ratio,
         bottom: 2.125 * arrowDims.height -  screenDims.height,
+        //adjustsFontSizeToFit: 'true',
     },
     rightText: {
         fontFamily: 'Tama-Connect',
@@ -144,6 +146,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         textAlign: 'right',
         right: 1.5 * ratio,
         bottom: 2.125 * arrowDims.height - screenDims.height,
+        //adjustsFontSizeToFit: 'true',
     },
     pet: {
         height: petDims,
