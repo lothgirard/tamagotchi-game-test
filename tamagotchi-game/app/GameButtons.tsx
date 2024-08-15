@@ -13,7 +13,7 @@ export function GameButtons({Styles,  GameState, setGameState}) {
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, setGameState)}>
+                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch)}>
                         <View> 
                             <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
@@ -34,7 +34,7 @@ export function GameButtons({Styles,  GameState, setGameState}) {
                     <Pressable onPressOut={() => optionsButton(gameStateDispatch)}>
                         <Image source={{uri: 'assets/images/game-images/options-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => resetButton(gameStateDispatch)}>
+                    <Pressable onPress={() => resetButton(gameStateDispatch, dispatch)}>
                         <Image source={{uri: 'assets/images/game-images/reset-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
@@ -45,14 +45,12 @@ export function GameButtons({Styles,  GameState, setGameState}) {
 var currEgg = "";
 var hatchAction = "";
 
-function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any, setGameState: any) {
+function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any) {
     //var dispatch = useActionListDispatch();
     //console.log(actionType);
     if(hatchAction === "") {
         currEgg = "egg_1";
         dispatch(actionType);
-        setGameState(["test"]);
-        //dispatch(["test"]);
         //console.log(actionList);
         //var actions = useActionList();
         if(actionList.length >= 4) {
@@ -100,6 +98,9 @@ function optionsButton(dispatch: any) {
     dispatch(["options"]);
 }
 
-function resetButton(dispatch: any) {
+function resetButton(dispatch: any, actionListDispatch: any) {
     dispatch(["reset"]);
+    //actionListDispatch(["reset"]);
+    hatchAction = "";
+    currEgg = "";
 }

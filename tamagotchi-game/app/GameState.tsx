@@ -1,4 +1,4 @@
-import { useContext, createContext, useReducer, ReactNode, Dispatch, SetStateAction } from 'react';
+import { useContext, createContext, useReducer, ReactNode, Dispatch, SetStateAction, useEffect } from 'react';
 
 const FrogCount = 12;
 
@@ -9,15 +9,56 @@ export const ProgressDispatchContext = createContext<any>({state: null, dispatch
 export const GameStateContext = createContext<Array<String>>([]);
 export const GameStateDispatchContext = createContext<any>({state: null, dispatch: () => null});
 
+const StartState = ['egg_1'];
+
 export const GameStateContextProvider = ({children}) => { 
 
     function progressStateReducer(state: Array<number>, action: number) {
-        if(0 <= action && action < FrogCount) {
-            state.push(action);
+        var newState = state;
+        if(0 <= action && action < FrogCount && !state.includes(action)) {
+            newState = newState.concat([action]);
         }
-        return state;
+        localStorage.setItem('progress', JSON.stringify(newState));
+        return newState;
+
     }   
     const [progressState, progressStateDispatch] = useReducer(progressStateReducer, []);
+
+    useEffect(() => {
+        //localStorage.setItem('progress', JSON.stringify([]));
+        const storage = localStorage.getItem('progress');
+        console.log("storage is: ", typeof storage);
+        if(storage) {
+            const existingCollection = JSON.parse(storage);
+            console.log(existingCollection);
+            if(existingCollection.length > progressState.length) {
+                for(var i = 0; i < existingCollection.length; i = i + 1) {
+                    progressStateDispatch(Number(existingCollection[i]));
+                }
+            } 
+        }
+    }, [progressState, progressStateDispatch]);
+
+    console.log(progressState);
+
+    function actionListReducer(state: Array<String>, action: Array<String>) {
+        console.log("Action: ", action);
+        switch(action[0]) {
+            case "hatching":
+                return state;
+            case "reset":
+                return state.slice(0, 0);
+            default: 
+                //console.log(action);
+                //state.push(action[0]);
+                var output = state.concat(action);
+                //console.log(state);
+                //console.log("state was changed");
+                return output;
+        }
+    }
+    const [actionList, actionListDispatch] = useReducer(actionListReducer, []);
+
 
     function gameStateReducer(state: Array<String>, action: Array<String>) {
         //console.log(action);
@@ -32,28 +73,18 @@ export const GameStateContextProvider = ({children}) => {
                 var pet = "pet_" + String(number);
                 progressStateDispatch(number);
                 state = [pet];
-                break;            
+                break;
+            case "reset":
+                state = StartState;
+                actionListDispatch(["reset"]);            
             default:
         }
         //console.log(state);
         return state;
     }
-    const [gameState, gameStateDispatch] = useReducer(gameStateReducer, ['egg_1']);
+    const [gameState, gameStateDispatch] = useReducer(gameStateReducer, StartState);
     //console.log(gameState);
-    function actionListReducer(state: Array<String>, action: Array<String>) {
-        switch(action[0]) {
-            case "hatching":
-                return state;
-            default: 
-                //console.log(action);
-                //state.push(action[0]);
-                var output = state.concat(action);
-                //console.log(state);
-                //console.log("state was changed");
-                return output;
-        }
-    }
-    const [actionList, actionListDispatch] = useReducer(actionListReducer, []);
+
 
     return (
         <ActionListContext.Provider value ={actionList}>
@@ -72,17 +103,45 @@ export const GameStateContextProvider = ({children}) => {
     )
 }
 
-function getPet(egg: String, hatchAction: String) {
+function ActionMap(input: string) {
+    console.log(input);
+    switch(input) {
+        case "pet":
+            return 1;
+        case "play":
+            return 2;
+        case "gift":
+            return 3;
+        case "feed":
+            return 4;
+        default:
+            return 1;
+    }
+}
+
+function getPet(egg: String, hatchAction: string) {
+    
+    var value = (Number(egg[egg.length-1]) - 1) * 4 + ActionMap(hatchAction);
+    console.log(value);
+    return value > 2 ? 1 : value;
     switch(egg) {
         default: 
             switch(hatchAction) {
                 case "pet":
                     return 1;
                 default:
-                    return 2;
+                    return ;
+
+                /*
+                */
             }
+        /*
+
+        */
     }
 }
+
+
 
 
 

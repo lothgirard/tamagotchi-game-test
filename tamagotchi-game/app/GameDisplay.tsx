@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 import { stateCache } from 'expo-router/build/getLinkingConfig';
+import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 
 
 export function GameDisplay({Styles}) {
@@ -12,7 +13,7 @@ export function GameDisplay({Styles}) {
         case 'stats':
             return stats(gameState);
         case 'collection':
-            return collection(gameState);
+            return collection(gameState, Styles);
         case 'credits':
             return credits(gameState);
         default: 
@@ -22,7 +23,7 @@ export function GameDisplay({Styles}) {
 
 
 function screenPrompt(gameState: Array<String>) {
-    console.log(gameState[0]);
+    //console.log(gameState[0]);
     switch(gameState[0]) {
         case "hatching":
             return "Your egg looks ready to hatch! Are you ready?";
@@ -53,7 +54,16 @@ function stats(gameState: Array<String>) {
     return (<View></View>);
 }
 
-function collection(gameState: Array<String>) {
+function miniOutput(collected: Array<Number>, num: number, styles) {
+    if(collected.includes(num)) {
+        return (<Image style={styles.collected} source={{uri: 'assets/images/game-images/pets/pet_' + String(num)}} />);
+    } else {
+        return (<Image style={styles.notCollected} source={{uri: 'assets/images/game-images/pets/pet_' + String(num)}} />);
+    }
+}
+
+function collection(gameState: Array<String>, styles) {
+
     return (<View></View>);
 }
 
@@ -84,7 +94,7 @@ function gameplay(Styles, gameState: Array<String>, gameStateDispatch: any) {
 
 function getImage(gameState: Array<String>, gameStateDispatch: any) {
     var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
-    console.log(gameState);
+    //console.log(gameState);
     switch(gameState[0]) {
         case "hatching":
             output = 'assets/images/game-images/pets/' + gameState[1] + '.png';

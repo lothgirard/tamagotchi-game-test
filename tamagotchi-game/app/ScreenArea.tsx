@@ -53,13 +53,8 @@ function leftButton(gameState: Array<String>, dispatch: any) {
 }
 
 function rightButton(gameState: Array<String>, dispatch: any) {
-<<<<<<< HEAD
     console.log("right!");
     var action = gameState.slice();
-=======
-    //console.log("right!");
-    var action = gameState;
->>>>>>> 4a723be46d71bb6b362fd9de4887165853a4f75d
     switch(gameState[0]) {
         case "hatching":
             action[0] = "unhatched";

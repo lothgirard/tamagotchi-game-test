@@ -182,6 +182,10 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         borderColor: '0x330000',
         borderWidth: 1,
     },
+    tutorial: {},
+    collected: {},
+    notCollected: {},
+    tutorialButton: {},
 })};
 
 //export const Styles = GenerateStyles();
