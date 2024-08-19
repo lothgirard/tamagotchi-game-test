@@ -126,7 +126,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     },
     screenText: {
         fontFamily: 'Tama-Connect',
-        fontSize: 16,
+        fontSize: 4 * ratio,
         textAlign: 'center',
         //adjustsFontSizeToFit: 'true',
     },
@@ -183,9 +183,129 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         borderWidth: 1,
     },
     tutorial: {},
-    collected: {},
-    notCollected: {},
+    collected: {
+        width: petDims/4.5,
+        height: petDims/4.5,
+    },
+    notCollected: {
+        width: petDims/4.5,
+        height: petDims/4.5,
+        opacity: 0,
+    },
+    upperRowColl: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    bottomRowColl: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
+    collection: {
+        flexDirection: 'column',
+        width: screenDims.width - 2 * ratio,
+        height: screenDims.height / 3 * 2,
+        bottom: 0,
+        justifyContent: 'space-evenly',
+    },
     tutorialButton: {},
+    eggSelect: {
+        width: eggDims.width/5,
+        height: eggDims.height/4.5,
+        bottom: 2 * ratio,
+        //borderColor: '0x330000',
+        //borderWidth: 1,
+    },
+    eggSelectView: {
+        //bottom: 0,
+        alignItems: 'flex-end',
+        width: screenDims.width - 2 * ratio,
+        height: screenDims.height - 5 * ratio,
+        justifyContent: 'space-evenly',
+        flexDirection: 'row',
+    },
+    options:{
+        alignItems: 'flex-end',
+        width: screenDims.width,
+        height: screenDims.height - 5 * ratio,
+        justifyContent: 'space-evenly',
+        flexDirection: 'row',
+        top: -ratio * 13,
+    },
+    option: {
+        width: eggDims.width/5,
+        height: eggDims.height/4.5,
+        bottom: 2 * ratio,
+        alignContent: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
+    },
+    optionText: {
+        fontFamily: 'Tama-Connect',
+        fontSize: 4 * ratio,
+        width: '90%',
+        textAlign: 'center',
+        //borderColor: '0x330000',
+        //borderWidth: 1,
+    },
+    stats: {
+        flexDirection: 'row',
+        width: screenDims.width - 2 * ratio,
+        height: screenDims.height - 5 * ratio,
+        bottom: 0,
+    },
+    statsImg: {
+        width: petDims * 0.75, 
+        height: petDims * 0.75, 
+        alignSelf: 'center',
+    },
+    info: {
+        width: screenDims.width - 2 * ratio - petDims * 0.75,
+        height: screenDims.height - 10 * ratio,
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+    },
+    stat: {
+        fontFamily: 'Tama-Connect',
+        fontSize: 4 * ratio,
+        left: 0,
+    },
+    statRow: {
+        flexDirection: 'row',
+        width: '90%',
+        justifyContent: 'space-between',
+        left: 0,
+    },
+    confirmName: {
+        height: screenDims.height / 3.25,
+        width: 25 * ratio,
+        fontFamily: 'Tama-Connect',
+        fontSize: 4 * ratio,
+        //bottom: 0,
+        alignSelf:'flex-end',
+        borderColor: '0x330000',
+        borderWidth: 1,
+        textAlign: 'center',
+    },
+    selectName: {
+        width: screenDims.width - 2 * ratio,
+        height: screenDims.height - 5 * ratio, 
+        position: 'relative',
+        top: -ratio * 13,
+        alignSelf: 'center',
+        //alignItems: 'center',
+        flexDirection: 'row',
+        borderColor: '0x330000',
+        borderWidth: 1,
+        justifyContent: 'space-between'
+    },
+    enterName: {
+        width: 30 * ratio,
+        height: 10 * ratio, 
+        alignSelf: 'center',
+        fontFamily: 'Tama-Connect',
+        fontSize: 4 * ratio,
+    }
 })};
 
 //export const Styles = GenerateStyles();

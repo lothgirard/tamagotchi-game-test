@@ -15,8 +15,8 @@ export default function Index() {
     <GameStateContextProvider>
       <View style={Styles.outerView}>
         <ImageBackground source={{uri: 'assets/images/game-images/tamagotchi-egg.png'}} style={Styles.egg} resizeMode="contain">
-          <ScreenArea Styles={Styles} GameState={gameState} setGameState={setGameState}/>
-          <GameButtons Styles={Styles} GameState={gameState} setGameState={setGameState} />
+          <ScreenArea Styles={Styles}/>
+          <GameButtons Styles={Styles}/>
         </ImageBackground>
       </View>
     </GameStateContextProvider>

@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { ImageBackground, Text, View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext, GameStateDispatchContext } from './GameState';
-import { GameDisplay } from './GameDisplay'; 
+import { confirmName, resetName, GameDisplay } from './GameDisplay'; 
 
 type Props = {
     Styles: any,
@@ -9,15 +9,15 @@ type Props = {
     setGameState: any
 }
 
-export function ScreenArea({Styles, GameState, setGameState}: Props) {
+export function ScreenArea({Styles}) {
     var gameState = useContext(GameStateContext);
     var gameStateDispatch = useContext(GameStateDispatchContext);
 
-    console.log("ScreenArea: " + GameState);
+    console.log("ScreenArea: " + gameState);
 
 
     useEffect(() => { 
-        if(gameState[0] === "hatchingAnim") {
+        if(gameState.state === "hatchingAnim") {
             console.log("bleep");
         } else {
             console.log("bloop");
@@ -31,7 +31,7 @@ export function ScreenArea({Styles, GameState, setGameState}: Props) {
             </Pressable>
             <Pressable>
                 <ImageBackground source={{uri: "assets/images/game-images/window.png"}} style={ Styles.screen } resizeMode='contain'>
-                    <GameDisplay Styles={Styles} GameState={GameState} setGameState={setGameState}/>
+                    <GameDisplay Styles={Styles}/>
                 </ImageBackground>
             </Pressable>
             <Pressable onPress={() => rightButton(gameState, gameStateDispatch)}>
@@ -41,35 +41,53 @@ export function ScreenArea({Styles, GameState, setGameState}: Props) {
     );
 }
 
-function leftButton(gameState: Array<String>, dispatch: any) {
+function leftButton(gameState: any, dispatch: any) {
     console.log("left!");
-    var action = gameState.slice();
-    switch(gameState[0]) {
+    var action = { ...gameState};
+    switch(gameState.state) {
         case "hatching":
-            action[0] = "hatchingAnim";
-        default:
-            dispatch(action);
-    }
-}
-
-function rightButton(gameState: Array<String>, dispatch: any) {
-    console.log("right!");
-    var action = gameState.slice();
-    switch(gameState[0]) {
-        case "hatching":
-            action[0] = "unhatched";
-        default:
-            dispatch(action);
-    }
-}
-
-function selectOption(gameState: Array<String>, dispatch: any) {
-    //console.log("select!");
-    var action = "";
-    switch(gameState[0]) {
-        default:
-            action = "";
+            action.newState = "hatchingAnim";
+            break;
+        case "confirmEgg":
+            action.newState = "eggConfirmed";
+            break; 
+        case "pickName":
+            return confirmName(gameState, dispatch);
+        default: 
+            return;          
     }
     dispatch(action);
 }
+
+
+function rightButton(gameState: any, dispatch: any) {
+    console.log("right!");
+    var action = { ...gameState};
+    switch(gameState.state) {
+        case "hatching":
+            action.newState = "unhatched";
+            break;
+        case "confirmEgg":
+            action.newState = "eggRejected";
+            break;
+        case "pickName":
+            return resetName();
+        default:
+            return;
+    }
+    dispatch(action);
+}
+
+// function selectOption(gameState: any, dispatch: any) {
+//     //console.log("select!");
+//     var action = { ...gameState};
+//     switch(gameState.state) {
+//         case "options":
+//             action.newState = "return";
+//         default:
+//             action.newState = "options";
+   
+//     }
+//     dispatch(action);
+// }
 
