@@ -90,7 +90,7 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...state, state: 'pickName', egg: action.egg};
                 break;
             case "eggRejected":
-                state = {...state, state: 'selectEgg'};
+                state = {...state, state: 'pickEgg'};
                 break;
             case "eggNamed":
                 state = {...state, state: 'egg', name: action.name, oldState: state.state};

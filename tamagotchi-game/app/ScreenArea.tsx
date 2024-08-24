@@ -13,17 +13,7 @@ export function ScreenArea({Styles}) {
     var gameState = useContext(GameStateContext);
     var gameStateDispatch = useContext(GameStateDispatchContext);
 
-    console.log("ScreenArea: " + gameState);
-
-
-    useEffect(() => { 
-        if(gameState.state === "hatchingAnim") {
-            console.log("bleep");
-        } else {
-            console.log("bloop");
-        }
-    }, [gameState]);
-    //console.log(GameState)
+    //console.log("ScreenArea: " + gameState);
     return (
         <View style={Styles.upperDisplay}> 
             <Pressable onPress={() => leftButton(gameState, gameStateDispatch)}>

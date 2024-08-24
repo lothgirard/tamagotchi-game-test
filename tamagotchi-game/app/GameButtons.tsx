@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 
-export function GameButtons({Styles,  GameState, setGameState}) {
+export function GameButtons({Styles}) {
 
     var dispatch = useActionListDispatch();
     var actions = useActionList();

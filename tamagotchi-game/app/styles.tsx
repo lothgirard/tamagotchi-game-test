@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { configureLayoutAnimationBatch } from 'react-native-reanimated/lib/typescript/reanimated2/core';
 
 
 
@@ -126,7 +127,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     },
     screenText: {
         fontFamily: 'Tama-Connect',
-        fontSize: 4 * ratio,
+        fontSize: 3.5 * ratio,
         textAlign: 'center',
         //adjustsFontSizeToFit: 'true',
     },
@@ -153,7 +154,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         width: petDims,
         //alignSelf: 'center',
         //left: - 18 * ratio,
-        borderWidth: 1, 
+        //borderWidth: 1, 
         borderColor: "0x330000",
     },
     screenLayout: { 
@@ -166,8 +167,8 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         height: ratio * 16,
         position: 'relative',
         top: 3 * ratio,
-        borderColor: '0x330000',
-        borderWidth: 1,
+        //borderColor: '0x330000',
+        //borderWidth: 1,
         alignSelf: 'center',
         justifyContent: 'center',
     },
@@ -179,10 +180,49 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         alignSelf: 'center',
         //alignItems: 'center',
         flexDirection: 'row',
-        borderColor: '0x330000',
-        borderWidth: 1,
+        //borderColor: '0x330000',
+        //borderWidth: 1,
     },
-    tutorial: {},
+    tutorial: {
+        width: eggDims.width * 0.9,
+        height: eggDims.height * 0.9, 
+        backgroundColor: 'rgba(0, 150, 0, 1.0)',
+        borderColor: 'rgba(0, 0, 0, 1.0)',
+        borderWidth: 1 * ratio,
+        position: 'absolute',
+        center: 0,
+    },
+    tutorialText: {
+        //fontFamily: 'Tama-Connect',
+        fontSize: 5 * ratio,
+    },
+    tutorialArrows: {
+        width: 5 * ratio, 
+        height: 10 * ratio,
+    },
+    tutorialButtonImage: {
+        width: 30 * ratio, 
+        height: 10 * ratio,
+    },
+    tutorialButtonLocation: {
+        right: -0.6 * screenDims.width,
+        top: -0.75 * screenDims.width,
+        width: 18 * ratio, 
+        height: 18 * ratio,
+        //pointerEvents: 'box-none'
+    },
+    tutorialButton: {
+        //right: -0.6 * screenDims.width,
+        //top: -0.75 * screenDims.width,
+        //right: -0.6 * screenDims.width,
+        //top: -0.75 * screenDims.width,
+        width: 18 * ratio, 
+        height: 18 * ratio,
+    },
+    tutorialScreenshot: {
+        width: 50 * ratio,
+        height: 40 * ratio,
+    },
     collected: {
         width: petDims/4.5,
         height: petDims/4.5,
@@ -207,7 +247,6 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         bottom: 0,
         justifyContent: 'space-evenly',
     },
-    tutorialButton: {},
     eggSelect: {
         width: eggDims.width/5,
         height: eggDims.height/4.5,
@@ -215,6 +254,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         //borderColor: '0x330000',
         //borderWidth: 1,
     },
+
     eggSelectView: {
         //bottom: 0,
         alignItems: 'flex-end',
@@ -283,8 +323,8 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         fontSize: 4 * ratio,
         //bottom: 0,
         alignSelf:'flex-end',
-        borderColor: '0x330000',
-        borderWidth: 1,
+        //borderColor: '0x330000',
+        //borderWidth: 1,
         textAlign: 'center',
     },
     selectName: {
@@ -293,9 +333,8 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         position: 'relative',
         top: -ratio * 13,
         alignSelf: 'center',
-        //alignItems: 'center',
         flexDirection: 'row',
-        borderColor: '0x330000',
+        borderColor: 'rgb(0, 0, 0, 1.0)',
         borderWidth: 1,
         justifyContent: 'space-between'
     },
@@ -305,7 +344,6 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         alignSelf: 'center',
         fontFamily: 'Tama-Connect',
         fontSize: 4 * ratio,
-    }
+    },
 })};
 
-//export const Styles = GenerateStyles();
