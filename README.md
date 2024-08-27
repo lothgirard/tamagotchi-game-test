@@ -1,1 +1,1 @@
-# tamagotchi-game-test
+# /tamagotchi-game-test
