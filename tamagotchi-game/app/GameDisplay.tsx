@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, Pressable, TextInput } from 'react-native';
-import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
+import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext } from './GameState';
 import { stateCache } from 'expo-router/build/getLinkingConfig';
 import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { getActionMap } from './GameButtons';
+import { PetImages } from './PetImages';
 
 export function GameDisplay({Styles}) {
     var gameState = useGameState();
@@ -88,16 +89,16 @@ function stats(gameState: any, styles, actionList: Array<String>) {
                 <Text style={styles.screenText}>Please pick an egg first.</Text>
             </View>)
     } else {
-        var src = ""
-        if(!(gameState.pet > 0)) {
-            src = 'assets/images/game-images/pets/egg_' + gameState.egg + '.png';
+        var src = PetImages.egg[gameState.egg];
+        //require('../assets/images/game-images/pets/placeholders/pet_' + String(gameState.pet) + '.png');
+        if(gameState.pet > 0) {
+            src = PetImages.pet_placeholder[gameState.pet];
         } else {
-            console.log("current pet is ", gameState.pet);
-            src = 'assets/images/game-images/pets/placeholders/pet_' + gameState.pet + '.png';
+            //console.log("current pet is ", gameState.pet);
         }
         var actionMap = getActionMap(actionList);
         return (<View style={styles.stats}>
-            <Image source={{uri: src}} style={styles.statsImg}/>
+            <Image source={src} style={styles.statsImg}/>
             <View style={styles.info}> 
                 <Text style={styles.stat}>Name: {gameState.name}</Text>
                 <Text style={styles.stat}>Age: {gameState.age}</Text>
@@ -137,10 +138,11 @@ function options(Styles, gameState: any, gameStateDispatch: any) {
 }
 
 function miniOutput(collected: Array<number>, num: number, styles) {
+    var src = PetImages.pet_placeholder[num];
     if(collected.includes(num+1)) {
-        return (<Image style={styles.collected} source={{uri: 'assets/images/game-images/pets/placeholders/pet_' + String(num+1) + '.png'}} key={num} />);
+        return (<Image style={styles.collected} source={src} key={num} />);
     } else {
-        return (<Image style={styles.notCollected} source={{uri: 'assets/images/game-images/pets/placeholders/pet_' + String(num+1) + '.png'}} key={num} />);
+        return (<Image style={styles.notCollected} source={src} key={num} />);
     }
 }
 
@@ -212,19 +214,20 @@ function pickEggs(Styles, gameState: any, gameStateDispatch: any) {
     return (
         <View style={Styles.eggSelectView}>
             <Pressable onPress={() => gameStateDispatch({...gameState, egg: 1, newState: 'eggPicked'})}>
-                <Image source={{uri: 'assets/images/game-images/pets/egg_1.png'}} style={Styles.eggSelect}/>
+                <Image source={require( '../assets/images/game-images/pets/egg_1.png')} style={Styles.eggSelect}/>
             </Pressable>
             <Pressable onPress={() => gameStateDispatch({...gameState, egg: 2, newState: 'eggPicked'})}>
-                <Image source={{uri: 'assets/images/game-images/pets/egg_2.png'}} style={Styles.eggSelect}/>
+                <Image source={require( '../assets/images/game-images/pets/egg_2.png')} style={Styles.eggSelect}/>
             </Pressable>
             <Pressable onPress={() => gameStateDispatch({...gameState, egg: 3, newState: 'eggPicked'})}>
-                <Image source={{uri: 'assets/images/game-images/pets/egg_1.png'}} style={Styles.eggSelect}/>
+                <Image source={require( '../assets/images/game-images/pets/egg_1.png')} style={Styles.eggSelect}/>
             </Pressable>
         </View>
     )
 }
 
 function gameplay(Styles, gameState: any, gameStateDispatch: any) {
+    var img = getImage(gameState, gameStateDispatch);
     return (
     <View style={Styles.screenLayout}>
         <View style={Styles.upperScreen}>
@@ -236,7 +239,7 @@ function gameplay(Styles, gameState: any, gameStateDispatch: any) {
             <Text style={Styles.leftText}>
                 {leftText(gameState)}
             </Text>
-            <Image style={Styles.pet} source={{uri: getImage(gameState, gameStateDispatch)}}/>
+            <Image style={Styles.pet} source={img}/>
             <Text style={Styles.rightText}>
                 {rightText(gameState)}
             </Text>
@@ -246,21 +249,21 @@ function gameplay(Styles, gameState: any, gameStateDispatch: any) {
 }
 
 function getImage(gameState: any, gameStateDispatch: any) {
-    var output = 'assets/images/game-images/pets/pet_' + gameState.pet + '.png';
+    var output = PetImages.egg[gameState.egg];
     console.log("the current state is ", gameState);
     //console.log(gameState);
     switch(gameState.state) {
         case "confirmEgg":
         case "hatching":
         case "egg":
-            output = 'assets/images/game-images/pets/egg_' + gameState.egg + '.png';
+            output = PetImages.egg[gameState.egg];
             break;
         case "hatchingAnim":
-            output = 'assets/images/game-images/pets/egg_' + gameState.egg + '_broken.png';
+            output = PetImages.egg_broken[gameState.egg];
             setTimeout(() => {gameStateDispatch({newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, 0);
             break;
         case "petHatched":
-            output = 'assets/images/game-images/pets/placeholders/pet_' + gameState.pet + '.png';
+            output = PetImages.pet_placeholder[gameState.pet];
             break;
         default: 
 

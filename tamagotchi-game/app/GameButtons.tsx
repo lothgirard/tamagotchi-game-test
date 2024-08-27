@@ -17,27 +17,27 @@ export function GameButtons({Styles}) {
                 <View style={Styles.buttonRow}>
                     <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, active, gameState)}>
                         <View> 
-                            <Image source={{uri: 'assets/images/game-images/pet-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                            <Image source={require( '../assets/images/game-images/pet-button.png')} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
                     </Pressable>
                     <Pressable onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/play-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                        <Image source={require( '../assets/images/game-images/play-button.png')} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.buttonRow}>
                     <Pressable onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/gift-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                        <Image source={require( '../assets/images/game-images/gift-button.png')} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                     <Pressable onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch, active, gameState)}>
-                        <Image source={{uri: 'assets/images/game-images/feed-button.png'}} style={Styles.bigButton} resizeMode='contain'/>
+                        <Image source={require( '../assets/images/game-images/feed-button.png')} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.smallButtonRow}>
                     <Pressable onPressOut={() => optionsButton(gameState, gameStateDispatch)}>
-                        <Image source={{uri: 'assets/images/game-images/options-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
+                        <Image source={require( '../assets/images/game-images/options-button.png')} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                     <Pressable onPress={() => resetButton(gameStateDispatch, dispatch)}>
-                        <Image source={{uri: 'assets/images/game-images/reset-button.png'}} style={Styles.smallButton} resizeMode='contain'/>
+                        <Image source={require( '../assets/images/game-images/reset-button.png')} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
         </View>  

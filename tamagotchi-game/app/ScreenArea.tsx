@@ -17,15 +17,15 @@ export function ScreenArea({Styles}) {
     return (
         <View style={Styles.upperDisplay}> 
             <Pressable onPress={() => leftButton(gameState, gameStateDispatch)}>
-                <Image source={{uri: "assets/images/game-images/left-arrow.png"}} style={ Styles.arrow }/>
+                <Image source={require( "../assets/images/game-images/left-arrow.png")} style={ Styles.arrow }/>
             </Pressable>
             <Pressable>
-                <ImageBackground source={{uri: "assets/images/game-images/window.png"}} style={ Styles.screen } resizeMode='contain'>
+                <ImageBackground source={require( "../assets/images/game-images/window.png")} style={ Styles.screen } resizeMode='contain'>
                     <GameDisplay Styles={Styles}/>
                 </ImageBackground>
             </Pressable>
             <Pressable onPress={() => rightButton(gameState, gameStateDispatch)}>
-                <Image source={{uri: "assets/images/game-images/right-arrow.png"}} style={ Styles.arrow }/>
+                <Image source={require( "../assets/images/game-images/right-arrow.png")} style={ Styles.arrow }/>
             </Pressable>
         </View>
     );
