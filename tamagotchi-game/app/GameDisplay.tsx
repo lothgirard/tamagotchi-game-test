@@ -138,7 +138,7 @@ function options(Styles, gameState: any, gameStateDispatch: any) {
 }
 
 function miniOutput(collected: Array<number>, num: number, styles) {
-    var src = PetImages.pet_placeholder[num-1];
+    var src = PetImages.pet_placeholder[num];
     if(collected.includes(num+1)) {
         return (<Image style={styles.collected} source={src} key={num} />);
     } else {
