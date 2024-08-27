@@ -63,13 +63,12 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
             var max = it.next();
             if(actionNums.size > 1) {
                 for(var key = it.next(); !key.done; key = it.next()) {
-                    if(actionNums.get(key.value) > max.value) {
+                    if(actionNums.get(key.value) > actionNums.get(max.value)) {
                         max = key;
                     }
                 }
             }
             hatchAction = max.value;
-            //console.log("continued")
         } else {
             return;
         }
