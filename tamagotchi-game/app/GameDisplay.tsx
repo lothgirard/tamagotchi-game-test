@@ -89,10 +89,10 @@ function stats(gameState: any, styles, actionList: Array<String>) {
                 <Text style={styles.screenText}>Please pick an egg first.</Text>
             </View>)
     } else {
-        var src = PetImages.egg[gameState.egg];
+        var src = PetImages.egg[gameState.egg-1];
         //require('../assets/images/game-images/pets/placeholders/pet_' + String(gameState.pet) + '.png');
         if(gameState.pet > 0) {
-            src = PetImages.pet_placeholder[gameState.pet];
+            src = PetImages.pet_placeholder[gameState.pet-1];
         } else {
             //console.log("current pet is ", gameState.pet);
         }
@@ -138,7 +138,7 @@ function options(Styles, gameState: any, gameStateDispatch: any) {
 }
 
 function miniOutput(collected: Array<number>, num: number, styles) {
-    var src = PetImages.pet_placeholder[num];
+    var src = PetImages.pet_placeholder[num-1];
     if(collected.includes(num+1)) {
         return (<Image style={styles.collected} source={src} key={num} />);
     } else {
@@ -249,21 +249,21 @@ function gameplay(Styles, gameState: any, gameStateDispatch: any) {
 }
 
 function getImage(gameState: any, gameStateDispatch: any) {
-    var output = PetImages.egg[gameState.egg];
+    var output = PetImages.egg[gameState.egg-1];
     console.log("the current state is ", gameState);
     //console.log(gameState);
     switch(gameState.state) {
         case "confirmEgg":
         case "hatching":
         case "egg":
-            output = PetImages.egg[gameState.egg];
+            output = PetImages.egg[gameState.egg-1];
             break;
         case "hatchingAnim":
-            output = PetImages.egg_broken[gameState.egg];
+            output = PetImages.egg_broken[gameState.egg-1];
             setTimeout(() => {gameStateDispatch({newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, 0);
             break;
         case "petHatched":
-            output = PetImages.pet_placeholder[gameState.pet];
+            output = PetImages.pet_placeholder[gameState.pet-1];
             break;
         default: 
 
