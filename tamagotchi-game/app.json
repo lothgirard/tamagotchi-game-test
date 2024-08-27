@@ -25,15 +25,14 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "experiments": {
-        "baseUrl": "/tamagotchi-game-test"
-      }
+
     },
     "plugins": [
       "expo-router"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/tamagotchi-game-test/"
     }
   }
 }
