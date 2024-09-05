@@ -54,9 +54,10 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
     }
     console.log("we are performing ", actionType);
     dispatch(actionType);
+    
     if(hatchAction === "") {
-        
         if(actionList.length >= 3) {
+            actionList.push(actionType);
             var actionNums = getActionMap(actionList.slice(0, 4));
 
             const it = actionNums.keys();          
@@ -70,10 +71,16 @@ function froggyFunction(dispatch: any, actionList: Array<String>, actionType: st
             }
             hatchAction = max.value;
         } else {
+            console.log("do we go here for some reason?");
+            gameStateDispatch({...gameState, newState: actionType + "Anim"});
             return;
         }
+    } else {
+        gameStateDispatch({...gameState, newState: actionType + "Anim"});
+        return;
     }
-    if(gameState.state === "egg") {
+    if(!gameState.eggHatched) {
+        console.log("we are dispatching the hatching");
         gameStateDispatch({...gameState, 
             newState: "hatching", 
             egg: currEgg, 

@@ -35,9 +35,35 @@ export function GameDisplay({Styles}) {
     }
 }
 
+const PetQuotes = (name: string) => [
+    name + " really likes a head scratch",
+    "You gently pet " + name,
+    name + " is happy to be petted"
+]
+
+const FeedQuotes = (name: string) => [
+    "Wow! " + name + " really likes Generic Brand Food!",
+    "*munch munch munch*",
+    "It's dinner time, " + name
+]
+
+const GiftQuotes = (name: string) => [
+    name + " is delighted to have a gift",
+    "Amazing, it's exactly what " + name + " wanted for Christmas!",
+    name + " looks at the gift with glee"
+]
+
+const PlayQuotes = (name: string) => [
+    name + " loves this game!",
+    name + " loves playing with you",
+    "You play with " + name + " for a bit"
+]
+
 
 function screenPrompt(gameState: any) {
     //console.log(gameState[0]);
+    const flavorNum = Math.floor(Math.random() * 3);
+
     switch(gameState.state) {
         case "hatching":
             return gameState.name + " looks ready to hatch! Are you ready?";
@@ -51,6 +77,14 @@ function screenPrompt(gameState: any) {
             return "Options:";
         case "pickName": 
             return "Pick a name for your new egg!";
+        case "petAnim":
+            return PetQuotes(gameState.name)[flavorNum];
+        case "feedAnim":
+            return FeedQuotes(gameState.name)[flavorNum];
+        case "giftAnim":
+            return GiftQuotes(gameState.name)[flavorNum];
+        case "playAnim":
+            return PlayQuotes(gameState.name)[flavorNum];
         default: 
             if(gameState.oldState === "pickName") {
                 return gameState.name + " is feeling apprehensive about their new home...";
@@ -236,13 +270,17 @@ function gameplay(Styles, gameState: any, gameStateDispatch: any) {
             </Text>
         </View>
         <View style={Styles.lowerScreen}>
+            <Pressable onPress={() => {leftButton(gameState, gameStateDispatch)}}>
             <Text style={Styles.leftText}>
                 {leftText(gameState)}
             </Text>
+            </Pressable>
             <Image style={Styles.pet} source={img}/>
+            <Pressable onPress={() => {rightButton(gameState, gameStateDispatch)}}>
             <Text style={Styles.rightText}>
                 {rightText(gameState)}
             </Text>
+            </Pressable>
         </View>
     </View>
     )
@@ -252,6 +290,7 @@ function getImage(gameState: any, gameStateDispatch: any) {
     var output = PetImages.egg[gameState.egg-1];
     console.log("the current state is ", gameState);
     //console.log(gameState);
+    if(!gameState.eggHatched) { return output; } 
     switch(gameState.state) {
         case "confirmEgg":
         case "hatching":
@@ -262,6 +301,10 @@ function getImage(gameState: any, gameStateDispatch: any) {
             output = PetImages.egg_broken[gameState.egg-1];
             setTimeout(() => {gameStateDispatch({newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, 0);
             break;
+        case "petAnim":
+        case "playAnim":
+        case "feedAnim":
+        case "giftAnim":
         case "petHatched":
             output = PetImages.pet_placeholder[gameState.pet-1];
             break;
@@ -272,4 +315,41 @@ function getImage(gameState: any, gameStateDispatch: any) {
     // var output = 'assets/images/game-images/pets/' + gameState[0] + '.png';
     // console.log(output);
     // return output;
+}
+
+export function leftButton(gameState: any, dispatch: any) {
+    console.log("left!");
+    var action = { ...gameState};
+    switch(gameState.state) {
+        case "hatching":
+            action.newState = "hatchingAnim";
+            break;
+        case "confirmEgg":
+            action.newState = "eggConfirmed";
+            break; 
+        case "pickName":
+            return confirmName(gameState, dispatch);
+        default: 
+            return;          
+    }
+    dispatch(action);
+}
+
+
+export function rightButton(gameState: any, dispatch: any) {
+    console.log("right!");
+    var action = { ...gameState};
+    switch(gameState.state) {
+        case "hatching":
+            action.newState = "unhatched";
+            break;
+        case "confirmEgg":
+            action.newState = "eggRejected";
+            break;
+        case "pickName":
+            return resetName();
+        default:
+            return;
+    }
+    dispatch(action);
 }

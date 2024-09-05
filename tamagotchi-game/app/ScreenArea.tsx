@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { ImageBackground, Text, View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext, GameStateDispatchContext } from './GameState';
-import { confirmName, resetName, GameDisplay } from './GameDisplay'; 
+import { GameDisplay, leftButton, rightButton } from './GameDisplay'; 
 
 type Props = {
     Styles: any,
@@ -31,42 +31,7 @@ export function ScreenArea({Styles}) {
     );
 }
 
-function leftButton(gameState: any, dispatch: any) {
-    console.log("left!");
-    var action = { ...gameState};
-    switch(gameState.state) {
-        case "hatching":
-            action.newState = "hatchingAnim";
-            break;
-        case "confirmEgg":
-            action.newState = "eggConfirmed";
-            break; 
-        case "pickName":
-            return confirmName(gameState, dispatch);
-        default: 
-            return;          
-    }
-    dispatch(action);
-}
 
-
-function rightButton(gameState: any, dispatch: any) {
-    console.log("right!");
-    var action = { ...gameState};
-    switch(gameState.state) {
-        case "hatching":
-            action.newState = "unhatched";
-            break;
-        case "confirmEgg":
-            action.newState = "eggRejected";
-            break;
-        case "pickName":
-            return resetName();
-        default:
-            return;
-    }
-    dispatch(action);
-}
 
 // function selectOption(gameState: any, dispatch: any) {
 //     //console.log("select!");

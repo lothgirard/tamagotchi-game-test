@@ -2,7 +2,7 @@ import { useContext, createContext, useReducer, ReactNode, Dispatch, SetStateAct
 
 const FrogCount = 12;
 
-const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23'};
+const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23', eggHatched: false};
 
 type GameState = {
     state: string, 
@@ -10,6 +10,7 @@ type GameState = {
     pet: number,
     hatchAction: string,
     oldState: string,
+    eggHatched: boolean,
 };
 
 export const ActionListContext = createContext<Array<String>>([]);
@@ -74,6 +75,8 @@ export const GameStateContextProvider = ({children}) => {
         //console.log(state);
         switch(action.newState) {
             case "hatchingAnim":
+                state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state, eggHatched: true};
+                break;
             case "hatching":
                 state = {...state, state: action.newState, egg: action.egg, hatchAction: action.hatchAction, oldState: state.state};
                 break;
@@ -81,7 +84,7 @@ export const GameStateContextProvider = ({children}) => {
                 var number = getPet(action.egg, action.hatchAction);
                 //var pet = "pet_" + String(number);
                 progressStateDispatch(number);
-                state = {...state, state: 'petHatched', pet: number};
+                state = {...state, state: 'petHatched', pet: number, eggHatched: true};
                 break;
             case "eggPicked":
                 state = {...state, state: 'confirmEgg', egg: action.egg};
@@ -98,10 +101,11 @@ export const GameStateContextProvider = ({children}) => {
             case "options":
                 state = {...state, state:"options", oldState: state.state};
                 break;
-            case "pettingAnim":
-            case "playingAnim":
-            case "giftingAnim":
-            case "feedingAnim":
+            case "petAnim":
+            case "playAnim":
+            case "giftAnim":
+            case "feedAnim":
+                state = {...state, state: action.newState};
             case "stats":
             case "collection":
             case "credits": 

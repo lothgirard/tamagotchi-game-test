@@ -126,14 +126,14 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         backgroundColor: '#ab0000',
     },
     screenText: {
-        fontFamily: 'Tama-Connect',
+        fontFamily: 'Press-Start',
         fontSize: 3.5 * ratio,
         textAlign: 'center',
         //adjustsFontSizeToFit: 'true',
     },
     leftText: {
-        fontFamily: 'Tama-Connect',
-        fontSize: 24, //FONT SIZE MUST BE VARIABLE TOO (ugh)
+        fontFamily: 'Press-Start',
+        fontSize: 3.5 * ratio, 
         width: 19 * ratio,
         textAlign: 'left',
         left: 2 * ratio,
@@ -141,8 +141,8 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         //adjustsFontSizeToFit: 'true',
     },
     rightText: {
-        fontFamily: 'Tama-Connect',
-        fontSize: 24,
+        fontFamily: 'Press-Start',
+        fontSize: 3.5 * ratio,
         width: 19 * ratio,
         textAlign: 'right',
         right: 1.5 * ratio,
@@ -163,7 +163,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         flexDirection: 'column',
     },
     upperScreen: {
-        width: screenDims.width - 2 * ratio,
+        width: screenDims.width - 8 * ratio,
         height: ratio * 16,
         position: 'relative',
         top: 3 * ratio,
@@ -193,7 +193,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         center: 0,
     },
     tutorialText: {
-        //fontFamily: 'Tama-Connect',
+        //fontFamily: 'Press-Start',
         fontSize: 5 * ratio,
     },
     tutorialArrows: {
@@ -281,7 +281,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
     },
     optionText: {
-        fontFamily: 'Tama-Connect',
+        fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
         width: '90%',
         textAlign: 'center',
@@ -306,7 +306,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         flexDirection: 'column',
     },
     stat: {
-        fontFamily: 'Tama-Connect',
+        fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
         left: 0,
     },
@@ -319,7 +319,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     confirmName: {
         height: screenDims.height / 3.25,
         width: 25 * ratio,
-        fontFamily: 'Tama-Connect',
+        fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
         //bottom: 0,
         alignSelf:'flex-end',
@@ -342,7 +342,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         width: 30 * ratio,
         height: 10 * ratio, 
         alignSelf: 'center',
-        fontFamily: 'Tama-Connect',
+        fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
     },
 })};
