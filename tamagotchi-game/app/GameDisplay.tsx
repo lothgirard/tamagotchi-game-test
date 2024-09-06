@@ -6,6 +6,18 @@ import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { getActionMap } from './GameButtons';
 import { PetImages } from './PetImages';
 
+
+const Animations = {
+    "pet": require('../assets/images/game-images/animations/petting.gif'),
+    "feed": require('../assets/images/game-images/animations/food.gif'),
+    "gift": require('../assets/images/game-images/animations/heart.gif'),
+    "play": require('../assets/images/game-images/animations/toy.gif'),
+    "hatching": require('../assets/images/game-images/animations/sparkle.gif'),
+    "eggWiggle": require('../assets/images/game-images/animations/egg.gif'),
+}
+
+const AnimTime = 2000; 
+
 export function GameDisplay({Styles}) {
     var gameState = useGameState();
     var gameStateDispatch = useGameStateDispatch();
@@ -77,14 +89,23 @@ function screenPrompt(gameState: any) {
             return "Options:";
         case "pickName": 
             return "Pick a name for your new egg!";
-        case "petAnim":
+        
+        case "wasPet":
             return PetQuotes(gameState.name)[flavorNum];
-        case "feedAnim":
+        
+        case "wasFeed":
             return FeedQuotes(gameState.name)[flavorNum];
-        case "giftAnim":
+        
+        case "wasGift":
             return GiftQuotes(gameState.name)[flavorNum];
-        case "playAnim":
+        
+        case "wasPlay":
             return PlayQuotes(gameState.name)[flavorNum];
+        case "petAnim":
+        case "playAnim":
+        case "giftAnim":
+        case "feedAnim":
+            return "";
         default: 
             if(gameState.oldState === "pickName") {
                 return gameState.name + " is feeling apprehensive about their new home...";
@@ -220,18 +241,22 @@ function pickName(Styles, gameState: any, gameStateDispatch: any) {
                 </Text>
             </View>
             <View style={Styles.selectName}>
-                <Text style={Styles.confirmName}>
-                    {leftText(gameState)}
-                </Text>
+                <Pressable style={Styles.confirmName} onPress={() => confirmName(gameState, gameStateDispatch)}>
+                    <Text style={Styles.confirmName}>
+                        {leftText(gameState)}
+                    </Text>
+                </Pressable>
                 <TextInput style={Styles.enterName}
                     onChangeText={(text) => {name = text}}
                     keyboardType="default"
                     placeholder={name}
                     
                 />
-                <Text style={Styles.confirmName}>
-                    {rightText(gameState)}
-                </Text>
+                <Pressable style={Styles.confirmName} onPress={resetName}>
+                    <Text style={Styles.confirmName}>
+                        {rightText(gameState)}
+                    </Text>
+                </Pressable>
             </View>
         </View>);
 }
@@ -260,8 +285,43 @@ function pickEggs(Styles, gameState: any, gameStateDispatch: any) {
     )
 }
 
+
+function getAnim(gameState: any, gameStateDispatch: any) {
+    var img = require('../assets/images/game-images/transparent.png');
+    switch(gameState.state) {
+        case "petAnim":
+            img = Animations.pet;
+            setTimeout(() => {gameStateDispatch({...gameState, newState: "wasPet"})}, AnimTime);
+            break;
+        case "playAnim":
+            img = Animations.play;
+            setTimeout(() => {gameStateDispatch({...gameState, newState: "wasPlay"})}, AnimTime);
+            break;
+        case "giftAnim":
+            img = Animations.gift;
+            setTimeout(() => {gameStateDispatch({...gameState, newState: "wasGift"})}, AnimTime);
+            break;
+        case "feedAnim":
+            img = Animations.feed;
+            setTimeout(() => {gameStateDispatch({...gameState, newState: "wasFeed"})}, AnimTime);
+            break;
+        case "hatchingAnim":
+            setTimeout(() => {gameStateDispatch({...gameState, newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, AnimTime);
+        case "hatching":
+            img = Animations.hatching;
+            break; 
+    }
+    return img;
+}
+
 function gameplay(Styles, gameState: any, gameStateDispatch: any) {
     var img = getImage(gameState, gameStateDispatch);
+
+    const Anim = () => {
+        if(gameState.state.slice(-4) === "Anim" || gameState.state === "hatching") {
+            return <Image source={getAnim(gameState, gameStateDispatch)} style={Styles.animation}/> 
+        }
+    }
     return (
     <View style={Styles.screenLayout}>
         <View style={Styles.upperScreen}>
@@ -276,6 +336,7 @@ function gameplay(Styles, gameState: any, gameStateDispatch: any) {
             </Text>
             </Pressable>
             <Image style={Styles.pet} source={img}/>
+            {Anim()}
             <Pressable onPress={() => {rightButton(gameState, gameStateDispatch)}}>
             <Text style={Styles.rightText}>
                 {rightText(gameState)}
@@ -290,16 +351,17 @@ function getImage(gameState: any, gameStateDispatch: any) {
     var output = PetImages.egg[gameState.egg-1];
     console.log("the current state is ", gameState);
     //console.log(gameState);
-    if(!gameState.eggHatched) { return output; } 
+    if(gameState.state !== "hatching" && !gameState.eggHatched) { return output; } 
     switch(gameState.state) {
-        case "confirmEgg":
+        // case "confirmEgg":
+        // case "egg":
+        //     output = PetImages.egg[gameState.egg-1];
+        //     break;
         case "hatching":
-        case "egg":
-            output = PetImages.egg[gameState.egg-1];
+            output = Animations.eggWiggle;
             break;
         case "hatchingAnim":
             output = PetImages.egg_broken[gameState.egg-1];
-            setTimeout(() => {gameStateDispatch({newState: "hatched", egg: gameState.egg, hatchAction: gameState.hatchAction})}, 0);
             break;
         case "petAnim":
         case "playAnim":

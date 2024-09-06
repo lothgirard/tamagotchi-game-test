@@ -71,7 +71,7 @@ export const GameStateContextProvider = ({children}) => {
 
 
     function gameStateReducer(state: any, action: any) {
-        //console.log(action);
+        console.log("we have received the action: ", action);
         //console.log(state);
         switch(action.newState) {
             case "hatchingAnim":
@@ -105,7 +105,11 @@ export const GameStateContextProvider = ({children}) => {
             case "playAnim":
             case "giftAnim":
             case "feedAnim":
-                state = {...state, state: action.newState};
+            case "wasPet":
+            case "wasPlay":
+            case "wasGift":
+            case "wasFeed":
+                if (state.state !== "hatching") { state = {...state, state: action.newState}; break;} 
             case "stats":
             case "collection":
             case "credits": 

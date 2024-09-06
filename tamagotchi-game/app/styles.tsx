@@ -1,3 +1,4 @@
+import { isAbsoluteUrl } from 'next/dist/shared/lib/utils';
 import { StyleSheet, Dimensions } from 'react-native';
 import { configureLayoutAnimationBatch } from 'react-native-reanimated/lib/typescript/reanimated2/core';
 
@@ -46,7 +47,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     function calculateArrowDims() {
         var ratio = eggDims.width / 146;
         var width = ratio * 8;
-        var height = ratio * 11;
+        var height = ratio * 14;
         return {width: width, height: height}
     }
 
@@ -74,6 +75,14 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         position: 'absolute',
         flexDirection: 'row',
     },
+    screenArea: {
+        height: screenDims.height, 
+        width: screenDims.width + 2 * (arrowDims.width + ratio * 2),
+        top: screenDims.top,
+        position: 'absolute',
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
     screen: {
         width: screenDims.width,
         height: screenDims.height, 
@@ -85,8 +94,12 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     arrow: {
         height: arrowDims.height,
         width: arrowDims.width,
-        bottom: 2* arrowDims.height -screenDims.height,
+        bottom: 1.7 * arrowDims.height -screenDims.height,
         'imageRendering': 'pixelated',
+    },
+    arrowPressable: {
+        height: arrowDims.height,
+        width: arrowDims.width,
     },
     bigButton: {
         width: buttonDims.bigWidth,
@@ -102,11 +115,13 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         flexDirection: 'row',
         width: (buttonDims.bigWidth + 2 * ratio) * 2,
         justifyContent: 'space-between',
+        left: 1 * ratio,
     },
     smallButtonRow: {
         flexDirection: 'row',
-        width: (buttonDims.smallWidth * 2) + 15 * ratio,
-        justifyContent: 'space-around',
+        width: (buttonDims.smallWidth * 2) + 4 * ratio,
+        justifyContent: 'space-between',
+        left: 1.5 * ratio,
         //top: -1 * ratio,
     },
     buttonColumns: {
@@ -115,7 +130,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         alignItems: 'center',
         flexDirection: 'column',
         position: 'absolute',   
-        top: screenDims.top + screenDims.height + ratio* 5,
+        top: screenDims.top + screenDims.height + ratio* 4,
         left: (eggDims.width - screenDims.width) / 2 - 3,   
     },
     outerView: {
@@ -145,7 +160,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         fontSize: 3.5 * ratio,
         width: 19 * ratio,
         textAlign: 'right',
-        right: 1.5 * ratio,
+        right: 4 * ratio,
         bottom: 2.125 * arrowDims.height - screenDims.height,
         //adjustsFontSizeToFit: 'true',
     },
@@ -156,6 +171,12 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         //left: - 18 * ratio,
         //borderWidth: 1, 
         borderColor: "0x330000",
+    },
+    animation: {
+        height: screenDims.height,
+        width: screenDims.width,
+        position: 'absolute',
+        left: 0,
     },
     screenLayout: { 
         width: screenDims.width,

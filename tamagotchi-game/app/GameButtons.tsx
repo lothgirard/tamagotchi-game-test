@@ -1,7 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch } from './GameState';
 
+const PetButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/pet.png") : require( "../assets/images/game-images/pet-button.png");
+const PlayButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/play.png") : require( "../assets/images/game-images/play-button.png");
+const GiftButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/gift.png") : require( "../assets/images/game-images/gift-button.png");
+const FeedButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/feed.png") : require( "../assets/images/game-images/feed-button.png");
+const OptionsButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/options.png") : require( "../assets/images/game-images/options-button.png");
+const ResetButton = (hover: boolean) => hover ? require("../assets/images/game-images/pressed/reset.png") : require( "../assets/images/game-images/reset-button.png");
+
+const BlockProg = [ "pickEgg", "confirmEgg", "hatching", "pickName", "hatchingAnim", "petAnim", "playAnim", "giftAnim", "feedAnim" ]
 export function GameButtons({Styles}) {
 
     var dispatch = useActionListDispatch();
@@ -11,33 +19,41 @@ export function GameButtons({Styles}) {
     var gameState = useGameState();
     currEgg = gameState.egg;
 
-    var active = gameState.state !== "pickEgg" && gameState.state !== "confirmEgg" && gameState.state !== "hatching" && gameState.state !== "hatchingAnim";
+    var [petHover, setPetHover] = useState(false);
+    var [playHover, setPlayHover] = useState(false);
+    var [giftHover, setGiftHover] = useState(false);
+    var [feedHover, setFeedHover] = useState(false);
+    var [optionsHover, setOptionsHover] = useState(false);
+    var [resetHover, setResetHover] = useState(false);
+
+
+    var active = !BlockProg.includes(gameState.state);
     return (
         <View style={Styles.buttonColumns}>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, active, gameState)}>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "pet", gameStateDispatch, active, gameState)} onHoverIn={() => setPetHover(true)} onHoverOut={() => setPetHover(false)}>
                         <View> 
-                            <Image source={require( '../assets/images/game-images/pet-button.png')} style={Styles.bigButton} resizeMode='contain'/>
+                            <Image source={PetButton(petHover)} style={Styles.bigButton} resizeMode='contain'/>
                         </View>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch, active, gameState)}>
-                        <Image source={require( '../assets/images/game-images/play-button.png')} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "play", gameStateDispatch, active, gameState)} onHoverIn={() => setPlayHover(true)} onHoverOut={() => setPlayHover(false)}>
+                        <Image source={PlayButton(playHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.buttonRow}>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch, active, gameState)}>
-                        <Image source={require( '../assets/images/game-images/gift-button.png')} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "gift", gameStateDispatch, active, gameState)} onHoverIn={() => setGiftHover(true)} onHoverOut={() => setGiftHover(false)}>
+                        <Image source={GiftButton(giftHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch, active, gameState)}>
-                        <Image source={require( '../assets/images/game-images/feed-button.png')} style={Styles.bigButton} resizeMode='contain'/>
+                    <Pressable style={Styles.bigButton} onPress={() => froggyFunction(dispatch, actions, "feed", gameStateDispatch, active, gameState)} onHoverIn={() => setFeedHover(true)} onHoverOut={() => setFeedHover(false)}>
+                        <Image source={FeedButton(feedHover)} style={Styles.bigButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
                 <View style={Styles.smallButtonRow}>
-                    <Pressable onPressOut={() => optionsButton(gameState, gameStateDispatch)}>
-                        <Image source={require( '../assets/images/game-images/options-button.png')} style={Styles.smallButton} resizeMode='contain'/>
+                    <Pressable style={Styles.smallButton} onPressOut={() => optionsButton(gameState, gameStateDispatch)} onHoverIn={() => setOptionsHover(true)} onHoverOut={() => setOptionsHover(false)}>
+                        <Image source={OptionsButton(optionsHover)} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
-                    <Pressable onPress={() => resetButton(gameStateDispatch, dispatch)}>
-                        <Image source={require( '../assets/images/game-images/reset-button.png')} style={Styles.smallButton} resizeMode='contain'/>
+                    <Pressable style={Styles.smallButton} onPress={() => resetButton(gameStateDispatch, dispatch)} onHoverIn={() => setResetHover(true)} onHoverOut={() => setResetHover(false)}>
+                        <Image source={ResetButton(resetHover)} style={Styles.smallButton} resizeMode='contain'/>
                     </Pressable>
                 </View>
         </View>  
