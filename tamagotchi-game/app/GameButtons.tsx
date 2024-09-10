@@ -63,11 +63,19 @@ export function GameButtons({Styles}) {
 var currEgg = 0;
 var hatchAction = "";
 
+export var flavorNum = 0;
+
+function newTextNum() {
+    flavorNum = Math.floor(Math.random() * 3);
+}
+
+
 function froggyFunction(dispatch: any, actionList: Array<String>, actionType: string, gameStateDispatch: any, active: boolean, gameState: any) {
     //play the action animation here first too, then dispatch any state changes
     if(!active) {
         return;
     }
+    newTextNum();
     console.log("we are performing ", actionType);
     dispatch(actionType);
     

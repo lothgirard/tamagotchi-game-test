@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, Pressable, TextInput } from 'react-nativ
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext } from './GameState';
 import { stateCache } from 'expo-router/build/getLinkingConfig';
 import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
-import { getActionMap } from './GameButtons';
+import { getActionMap, flavorNum } from './GameButtons';
 import { PetImages } from './PetImages';
 
 
@@ -71,10 +71,8 @@ const PlayQuotes = (name: string) => [
     "You play with " + name + " for a bit"
 ]
 
-
 function screenPrompt(gameState: any) {
     //console.log(gameState[0]);
-    const flavorNum = Math.floor(Math.random() * 3);
 
     switch(gameState.state) {
         case "hatching":
@@ -368,9 +366,10 @@ function getImage(gameState: any, gameStateDispatch: any) {
         case "feedAnim":
         case "giftAnim":
         case "petHatched":
+            default: 
             output = PetImages.pet_placeholder[gameState.pet-1];
             break;
-        default: 
+        
 
     }
     return output;
