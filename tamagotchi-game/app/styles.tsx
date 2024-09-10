@@ -1,5 +1,5 @@
 import { isAbsoluteUrl } from 'next/dist/shared/lib/utils';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { configureLayoutAnimationBatch } from 'react-native-reanimated/lib/typescript/reanimated2/core';
 
 
@@ -11,10 +11,11 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     function calculateEggDims() {
         var eggRatio = 146 / 178;
         if(winWidth/ winHeight >= eggRatio) {
-            var height = winHeight;
+            var height = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winHeight / 1.5 : winHeight;
             var width = height * eggRatio;
+
         } else {
-            var width = winWidth;
+            var width = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winWidth / 1.5 :  winWidth ;
             var height = width / eggRatio;
         }
         return {width: width, height: height};
