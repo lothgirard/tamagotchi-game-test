@@ -11,11 +11,11 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
     function calculateEggDims() {
         var eggRatio = 146 / 178;
         if(winWidth/ winHeight >= eggRatio) {
-            var height = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winHeight / 1.5 : winHeight;
+            var height =  winHeight / 1.5;
             var width = height * eggRatio;
 
         } else {
-            var width = Platform.OS !== 'android' && Platform.OS !== 'ios' ? winWidth / 1.5 :  winWidth ;
+            var width = winWidth;
             var height = width / eggRatio;
         }
         return {width: width, height: height};
@@ -153,7 +153,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         width: 19 * ratio,
         textAlign: 'left',
         left: 2 * ratio,
-        bottom: 2.125 * arrowDims.height -  screenDims.height,
+        bottom: 1.5 * arrowDims.height -  screenDims.height,
         //adjustsFontSizeToFit: 'true',
     },
     rightText: {
@@ -162,7 +162,7 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         width: 19 * ratio,
         textAlign: 'right',
         right: 4 * ratio,
-        bottom: 2.125 * arrowDims.height - screenDims.height,
+        bottom: 1.5 * arrowDims.height - screenDims.height,
         //adjustsFontSizeToFit: 'true',
     },
     pet: {
@@ -344,10 +344,11 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
         //bottom: 0,
-        alignSelf:'flex-end',
+        //alignSelf:'flex-end',
         //borderColor: '0x330000',
         //borderWidth: 1,
         textAlign: 'center',
+        bottom: - 1.625 * arrowDims.height,
     },
     selectName: {
         width: screenDims.width - 2 * ratio,
