@@ -23,9 +23,10 @@ export default function Index() {
 
 
   //var buttonSource = tutorialState ? 'assets/images/game-images/tutorial-button-x.png' : 'assets/images/game-images/tutorial-button.png';
-  console.log("index: " + gameState);
+  //console.log("index: " + gameState);
   return (
     <GameStateContextProvider>
+      <ImageBackground source={require('../assets/images/bg.png')} style={Styles.backgroundImage} resizeMode='repeat'>
       <View style={Styles.outerView}>
         <ImageBackground source={require( '../assets/images/game-images/tamagotchi-egg.png')} style={Styles.egg} resizeMode="contain">
           <ScreenArea Styles={Styles}/>
@@ -36,6 +37,7 @@ export default function Index() {
           </Pressable>
         </ImageBackground>
       </View>
+      </ImageBackground>
     </GameStateContextProvider>
   );
 }

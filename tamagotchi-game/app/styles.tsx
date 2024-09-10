@@ -69,6 +69,11 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         height: eggDims.height,
         'imageRendering': 'pixelated',
     },
+    backgroundImage: {
+        width: winWidth, 
+        height: winHeight,
+        imageRendering: 'pixelated',
+    },
     upperDisplay: {
         height: screenDims.height, 
         width: screenDims.width + 2 * (arrowDims.width + ratio * 2),
@@ -139,7 +144,6 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         width: winWidth,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: '#ab0000',
     },
     screenText: {
         fontFamily: 'Press-Start',
