@@ -274,13 +274,22 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         justifyContent: 'space-evenly',
     },
     eggSelect: {
-        width: eggDims.width/5,
+        width: eggDims.width/4.5,
         height: eggDims.height/4.5,
         bottom: 2 * ratio,
         //borderColor: '0x330000',
         //borderWidth: 1,
     },
-
+    eggSelectWithShadow: {
+        width: eggDims.width/4.5,
+        height: eggDims.height/4.5,
+        bottom: 2 * ratio,
+        shadowColor: 'rgba(0, 160, 50, 1)',
+        shadowOffset: {width: 0, height: 0},
+        shadowOpacity: 1,
+        shadowRadius: 3, 
+        elevation: 3,
+    },
     eggSelectView: {
         //bottom: 0,
         alignItems: 'flex-end',
@@ -372,5 +381,14 @@ export function GenerateStyles(winWidth: number, winHeight: number) {
         fontFamily: 'Press-Start',
         fontSize: 4 * ratio,
     },
+    confirmBg: {
+        width: screenDims.width,
+        height: screenDims.height,
+    },
+    transparentClickable: {
+        width: screenDims.width, 
+        height: screenDims.height,
+        opacity: 0,
+    }
 })};
 

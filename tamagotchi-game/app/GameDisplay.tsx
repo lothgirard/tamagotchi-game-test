@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, TextInput } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext } from './GameState';
 import { stateCache } from 'expo-router/build/getLinkingConfig';
 import { stringifyCookie } from 'next/dist/compiled/@edge-runtime/cookies';
 import { getActionMap, flavorNum } from './GameButtons';
 import { PetImages } from './PetImages';
+import DropShadow from 'react-native-drop-shadow';
 
+const AVAILABLE_PETS = 2;
 
 const Animations = {
     "pet": require('../assets/images/game-images/animations/petting.gif'),
@@ -42,6 +44,8 @@ export function GameDisplay({Styles}) {
             return pickEggs(Styles, gameState, gameStateDispatch);
         case 'pickName':
             return pickName(Styles, gameState, gameStateDispatch);
+        case 'selectBackground':
+            return changeBackground(Styles, gameState, gameStateDispatch);
         default: 
             return gameplay(Styles, gameState, gameStateDispatch);
     }
@@ -99,13 +103,15 @@ function screenPrompt(gameState: any) {
         
         case "wasPlay":
             return PlayQuotes(gameState.name)[flavorNum];
+        case "selectBackground":
+            return "Pick a background and click to confirm!";
         case "petAnim":
         case "playAnim":
         case "giftAnim":
         case "feedAnim":
             return "";
         default: 
-            if(gameState.oldState === "pickName") {
+            if(gameState.oldState === "pickName" || gameState.oldState === "egg") {
                 return gameState.name + " is feeling apprehensive about their new home...";
             }
             return "";
@@ -183,15 +189,15 @@ function options(Styles, gameState: any, gameStateDispatch: any) {
                     <Pressable style={Styles.option} onPress={() => gameStateDispatch({... gameState, newState: 'collection'})}>
                         <Text style={Styles.optionText}>Collec-tion!</Text>
                     </Pressable>
-                    <Pressable style={Styles.option} onPress={() => gameStateDispatch({... gameState, newState: 'credits'})}>
-                        <Text style={Styles.optionText}>Credits!</Text>
+                    <Pressable style={Styles.option} onPress={() => gameStateDispatch({... gameState, newState: 'selectBackground'})}>
+                        <Text style={Styles.optionText}>Back-grounds!</Text>
                     </Pressable>
                 </View>
             </View>);
 }
 
 function miniOutput(collected: Array<number>, num: number, styles) {
-    var src = PetImages.pet_placeholder[num];
+    var src = num >= AVAILABLE_PETS ? PetImages.pet_placeholder[num] : PetImages.pet[num];
     if(collected.includes(num+1)) {
         return (<Image style={styles.collected} source={src} key={num} />);
     } else {
@@ -226,6 +232,24 @@ function collection(gameState: any, Styles, collected: Array<number>) {
 
 function credits(gameState: any) {
     return (<View></View>);
+}
+
+function changeBackground( Styles: any, gameState: any, gameStateDispatch: any) {
+    return (
+        <View style={Styles.screenLayout}>
+            <View style={Styles.upperScreen}>
+                <Text style={Styles.screenText}> 
+                    {screenPrompt(gameState)}
+                </Text>
+            </View>
+            <View style={Styles.lowerScreen}>
+
+                <Pressable style={Styles.confirmBg} onPress={() => gameStateDispatch({...gameState, newState: "return"})}>
+                    <Image style={Styles.transparentClickable} src={PetImages.background[gameState.background]} />
+                </Pressable>
+
+            </View>
+        </View>);
 }
 
 var name = "name";
@@ -267,17 +291,20 @@ export function resetName() {
     name = "";
 }
 function pickEggs(Styles, gameState: any, gameStateDispatch: any) {
+    const [eggOne, setEggOne] = useState(false);
+    const [eggTwo, setEggTwo] = useState(false);
+    const [eggThree, setEggThree] = useState(false);
 
     return (
         <View style={Styles.eggSelectView}>
-            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 1, newState: 'eggPicked'})}>
-                <Image source={require( '../assets/images/game-images/pets/egg_1.png')} style={Styles.eggSelect}/>
+            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 1, newState: 'eggPicked'})} onHoverIn={() => setEggOne(true)} onHoverOut={() => setEggOne(false)}>
+                <Image source={require( '../assets/images/game-images/pets/egg_1.png')} style={eggOne ? Styles.eggSelectWithShadow : Styles.eggSelect} resizeMode='contain'/>
             </Pressable>
-            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 2, newState: 'eggPicked'})}>
-                <Image source={require( '../assets/images/game-images/pets/egg_2.png')} style={Styles.eggSelect}/>
+            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 2, newState: 'eggPicked'})} onHoverIn={() => setEggTwo(true)} onHoverOut={() => setEggTwo(false)}>
+                <Image source={require( '../assets/images/game-images/pets/egg_2.png')} style={eggTwo ? Styles.eggSelectWithShadow : Styles.eggSelect} resizeMode='contain'/>
             </Pressable>
-            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 3, newState: 'eggPicked'})}>
-                <Image source={require( '../assets/images/game-images/pets/egg_1.png')} style={Styles.eggSelect}/>
+            <Pressable onPress={() => gameStateDispatch({...gameState, egg: 3, newState: 'eggPicked'})} onHoverIn={() => setEggThree(true)} onHoverOut={() => setEggThree(false)}>
+                <Image source={require( '../assets/images/game-images/pets/egg_3.png')} style={eggThree ? Styles.eggSelectWithShadow : Styles.eggSelect} resizeMode='contain'/>
             </Pressable>
         </View>
     )
@@ -356,7 +383,7 @@ function getImage(gameState: any, gameStateDispatch: any) {
         //     output = PetImages.egg[gameState.egg-1];
         //     break;
         case "hatching":
-            output = Animations.eggWiggle;
+            output = PetImages.egg_wiggle[gameState.egg-1];
             break;
         case "hatchingAnim":
             output = PetImages.egg_broken[gameState.egg-1];
@@ -365,9 +392,11 @@ function getImage(gameState: any, gameStateDispatch: any) {
         case "playAnim":
         case "feedAnim":
         case "giftAnim":
+            output = gameState.pet > AVAILABLE_PETS ? PetImages.pet_placeholder[gameState.pet-1] : PetImages.actionPet[gameState.pet-1];
+            break;
         case "petHatched":
-            default: 
-            output = PetImages.pet_placeholder[gameState.pet-1];
+        default: 
+            output = gameState.pet > AVAILABLE_PETS ? PetImages.pet_placeholder[gameState.pet-1] : PetImages.pet[gameState.pet-1];
             break;
         
 
@@ -390,6 +419,10 @@ export function leftButton(gameState: any, dispatch: any) {
             break; 
         case "pickName":
             return confirmName(gameState, dispatch);
+        case "selectBackground":
+            action.background = (action.background - 1) % PetImages.background.length;
+            action.newState = "backgroundChanged";
+            break;
         default: 
             return;          
     }
@@ -409,6 +442,10 @@ export function rightButton(gameState: any, dispatch: any) {
             break;
         case "pickName":
             return resetName();
+        case "selectBackground":
+            action.background = (action.background + 1) % PetImages.background.length;
+            action.newState = "backgroundChanged";
+            break;
         default:
             return;
     }

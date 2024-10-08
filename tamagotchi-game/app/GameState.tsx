@@ -2,7 +2,7 @@ import { useContext, createContext, useReducer, ReactNode, Dispatch, SetStateAct
 
 const FrogCount = 12;
 
-const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23', eggHatched: false};
+const StartState = {state: 'pickEgg', egg: -1, pet: -1, hatchAction: '', oldState: '', name: 'Froggy :)', age: '23', eggHatched: false, background: 0};
 
 type GameState = {
     state: string, 
@@ -11,6 +11,7 @@ type GameState = {
     hatchAction: string,
     oldState: string,
     eggHatched: boolean,
+    background: number,
 };
 
 export const ActionListContext = createContext<Array<String>>([]);
@@ -99,7 +100,7 @@ export const GameStateContextProvider = ({children}) => {
                 state = {...state, state: 'egg', name: action.name, oldState: state.state};
                 break;
             case "options":
-                state = {...state, state:"options", oldState: state.state};
+                state = {...state, oldState: state.state, state:"options"};
                 break;
             case "petAnim":
             case "playAnim":
@@ -112,8 +113,11 @@ export const GameStateContextProvider = ({children}) => {
                 if (state.state !== "hatching") { state = {...state, state: action.newState}; break;} 
             case "stats":
             case "collection":
-            case "credits": 
+            case "selectBackground": 
                 state = {...action, state: action.newState};
+                break;
+            case "backgroundChanged":
+                state = {...action, state: "selectBackground"};
                 break;
             case "return":
                 state = {...action, state: state.oldState};

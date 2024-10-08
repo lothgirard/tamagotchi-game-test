@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from 'react';
 import { ImageBackground, Text, View, Image, Pressable } from 'react-native';
 import { useActionList, useActionListDispatch, useProgress, useProgressDispatch, useGameState, useGameStateDispatch, GameStateContext, GameStateDispatchContext } from './GameState';
 import { GameDisplay, leftButton, rightButton } from './GameDisplay'; 
+import { PetImages } from './PetImages';
 
 type Props = {
     Styles: any,
@@ -25,7 +26,7 @@ export function ScreenArea({Styles}) {
                 <Image source={LeftArrow(leftHover)} style={ Styles.arrow }/>
             </Pressable>
             <Pressable>
-                <ImageBackground source={require( "../assets/images/game-images/window.png")} style={ Styles.screen } resizeMode='contain'>
+                <ImageBackground source={PetImages.background[gameState.background]} style={ Styles.screen } resizeMode='contain'>
                     <GameDisplay Styles={Styles}/>
                 </ImageBackground>
             </Pressable>
